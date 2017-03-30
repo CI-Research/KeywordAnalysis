@@ -1,0 +1,19 @@
+//FIRST PASS
+spark-shell
+val file = sc.textFile("s3://CommonCrawl/netapp1/110451.gz")
+val counts = file.flatMap(line => line.toLowerCase().replace(".", " ").replace(",", " ").split(" ")).map(word => (word, 1L)).reduceByKey(_ + _)
+val sorted_counts = counts.collect().sortBy(wc => -wc._2)    (3mins)
+sc.parallelize(sorted_counts.take(20000)).saveAsTextFile("s3://CommonCrawl/top20000_netapp.com")
+sc.parallelize(sorted_counts).saveAsTextFile("s3://CommonCrawl/wordcount-netapp.com")
+
+
+//SECOND PASS
+spark-shell
+val file = sc.textFile("s3://CommonCrawl/netapp.txt")
+val counts = file.flatMap(line => line.toLowerCase().replace(".", " ").replace(",", " ").split(" ")).map(word => (word, 1L)).reduceByKey(_ + _)
+val sorted_counts = counts.collect().sortBy(wc => -wc._2)
+# prints lines containing (word, count) pairs
+sorted_counts.take(50).foreach(println)
+sc.parallelize(sorted_counts.take(20000)).saveAsTextFile("s3://CommonCrawl/top20000-netapp ")
+sc.parallelize(sorted_counts).saveAsTextFile("s3://CommonCrawl/wordcount-netapp")
+C:\Users\jiaon>copy C:\Users\jiaon\Downloads\part* C:\Docus\cc\netapp_top2000.txt

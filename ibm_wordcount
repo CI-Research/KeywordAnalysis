@@ -1,0 +1,34 @@
+//FIRST PASS
+spark-shell
+val file = sc.textFile("s3://CommonCrawl/ibm/26279.gz")
+val counts = file.flatMap(line => line.toLowerCase().replace(".", " ").replace(",", " ").split(" ")).map(word => (word, 1L)).reduceByKey(_ + _)
+val sorted_counts = counts.collect().sortBy(wc => -wc._2)    (20mins)
+sc.parallelize(sorted_counts.take(60000)).saveAsTextFile("s3://CommonCrawl/top60000_ibm.com")
+sc.parallelize(sorted_counts).saveAsTextFile("s3://CommonCrawl/wordcount-ibm.com")
+
+
+//SECOND PASS
+spark-shell
+val file = sc.textFile("s3://CommonCrawl/www.ibm.com/381.gz")
+val counts = file.flatMap(line => line.toLowerCase().replace(".", " ").replace(",", " ").split(" ")).map(word => (word, 1L)).reduceByKey(_ + _)
+val sorted_counts = counts.collect().sortBy(wc => -wc._2)
+
+17/03/27 07:17:33 ERROR TaskSetManager: Total size of serialized results of 24 tasks (2.3 GB) is bigger than spark.driver.maxResultSize (1024.0 MB)
+Container killed by YARN for exceeding memory limits. 3.4 GB of 3.4 GB physical memory used. Consider boosting spark.yarn.executor.memoryOverhead
+http://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-spark-configure.html#w1ab1c46c71b9
+
+classification=spark-defaults,properties=[spark.executor.memory=3G]
+sc.parallelize(sorted_counts.take(20000)).saveAsTextFile("s3://CommonCrawl/top20000-ibm381")
+sc.parallelize(sorted_counts).saveAsTextFile("s3://CommonCrawl/wordcount-ibm381")
+
+Change to smaller file size:
+./remote_copy copy "com.ibm.www" --bucket jiaon01 --key common_crawl/ibm8 --parallel 8
+
+val file = sc.textFile("s3://jiaon01/common_crawl/ibm12/1673.gz")
+val counts = file.flatMap(line => line.toLowerCase().replace(".", " ").replace(",", " ").split(" ")).map(word => (word, 1L)).reduceByKey(_ + _)
+val sorted_counts = counts.collect().sortBy(wc => -wc._2)
+sc.parallelize(sorted_counts.take(20000)).saveAsTextFile("s3://jiaon01/common_crawl/top20000-ibm1673")
+sc.parallelize(sorted_counts).saveAsTextFile("s3://jiaon01/common_crawl/wordcount-ibm1673")
+
+
+

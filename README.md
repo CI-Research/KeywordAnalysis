@@ -109,3 +109,37 @@ Top 10 words
 |for	|737729|
 |in	|646580|
 |ibm	|623663|
+
+### Remove Stop Words
+
+The steps are
+1. remove punctuation, by replace "[^A-Za-z0-9\s]+" with "", or not include numbers "[^A-Za-z\s]+"
+2. trim all spaces
+3. lower all words
+4. remove stop words
+
+```Scala
+import org.apache.spark.ml.feature.StopWordsRemover
+import org.apache.spark.sql.functions.split
+
+// val reg = raw"[^A-Za-z0-9\s]+" // with numbers
+
+val reg = raw"[^A-Za-z\s]+" // no numbers
+val lines = sc.textFile("s3://CommonCrawl/boilerplate/netapp_boiler").
+    map(_.replaceAll(reg, "").trim.toLowerCase).toDF("line")
+val words = lines.select(split($"line", " ").alias("words"))
+
+val remover = new StopWordsRemover()
+      .setInputCol("words")
+      .setOutputCol("filtered")
+
+val noStopWords = remover.transform(words)
+
+val counts = noStopWords.select(explode($"filtered")).map(word =>(word, 1))
+    .reduceByKey(_+_)
+
+// from word -> num to num -> word
+val mostCommon = counts.map(p => (p._2, p._1)).sortByKey(false, 1)
+
+mostCommon.take(5)
+```

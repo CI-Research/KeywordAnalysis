@@ -77,8 +77,10 @@ java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar /var/tmp/26279 /v
 ```
 
 ### Wordcount process
-1. spark-shell
-
+1. 
+```
+spark-shell
+```
 IBM Wordcount process:
 ```Scala
 val file = sc.textFile("s3://CommonCrawl/ibm_boiler")

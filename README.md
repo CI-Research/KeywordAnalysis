@@ -118,6 +118,14 @@ The steps are
 3. lower all words
 4. remove stop words
 
+```
+aws s3 cp s3://CommonCrawl/netapp_boiler_top20000.txt /var/tmp
+hdfs dfs -mkdir /user/hadoop/data/
+hdfs dfs -put /var/tmp/netapp_boiler_top20000.txt /user/hadoop/data/
+```
+```
+spark-shell
+```
 ```Scala
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.sql.functions.split
@@ -125,21 +133,16 @@ import org.apache.spark.sql.functions.split
 // val reg = raw"[^A-Za-z0-9\s]+" // with numbers
 
 val reg = raw"[^A-Za-z\s]+" // no numbers
-val lines = sc.textFile("s3://CommonCrawl/boilerplate/netapp_boiler").
-    map(_.replaceAll(reg, "").trim.toLowerCase).toDF("line")
+val lines = sc.textFile("/user/hadoop/data/netapp_boiler_top20000.txt").map(_.replaceAll(reg, "").trim.toLowerCase).toDF("line")
 val words = lines.select(split($"line", " ").alias("words"))
-
-val remover = new StopWordsRemover()
-      .setInputCol("words")
-      .setOutputCol("filtered")
-
+val remover = new StopWordsRemover().setInputCol("words").setOutputCol("filtered")
 val noStopWords = remover.transform(words)
+remover.transform(words).show(15)
 
-val counts = noStopWords.select(explode($"filtered")).map(word =>(word, 1))
-    .reduceByKey(_+_)
+//val counts = noStopWords.select(explode($"filtered")).map(word =>(word, 1)).reduceByKey(_+_)
 
 // from word -> num to num -> word
-val mostCommon = counts.map(p => (p._2, p._1)).sortByKey(false, 1)
+//val mostCommon = counts.map(p => (p._2, p._1)).sortByKey(false, 1)
 
-mostCommon.take(5)
+//mostCommon.take(5)
 ```

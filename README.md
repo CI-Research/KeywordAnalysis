@@ -147,4 +147,9 @@ remover.transform(words).show(15)
 //val mostCommon = counts.map(p => (p._2, p._1)).sortByKey(false, 1)
 
 //mostCommon.take(5)
+
+//dataframe dump to csv
+val stringify = udf((vs: Seq[String]) => s"""[${vs.mkString(",")}]""")
+words.withColumn("words", stringify($"words")).write.csv("/data/netapp_filtered.csv")
+hdfs dfs -get /data/netapp_filtered.csv .
 ```

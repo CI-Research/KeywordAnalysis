@@ -157,3 +157,11 @@ hdfs dfs -get /data/netapp_filtered.csv .
 ### Dataframe, Dataset, Data source
 
 [How-to: Convert Text to Parquet in Spark to Boost Performance](https://developer.ibm.com/hadoop/2015/12/03/parquet-for-spark-sql/)
+
+Spark 2.0 convert into parquet file in much more efficient than spark1.6.
+```
+import org.apache.spark.sql.types._
+var df = StructType(Array(StructField("words", StringType, true),StructField("counts", LongType, true) ))
+df = spark.read.schema(df).option("header", "true").option("delimiter", "\t").csv("/user/hadoop/data/netapp_boiler_top20000.csv")
+df.write.parquet("/user/hadoop/data/netapp_boiler_top20000-parquet")
+```

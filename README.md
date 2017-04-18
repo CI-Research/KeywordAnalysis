@@ -153,3 +153,7 @@ val stringify = udf((vs: Seq[String]) => s"""[${vs.mkString(",")}]""")
 words.withColumn("words", stringify($"words")).write.csv("/data/netapp_filtered.csv")
 hdfs dfs -get /data/netapp_filtered.csv .
 ```
+
+### Dataframe, Dataset, Data source
+
+[How-to: Convert Text to Parquet in Spark to Boost Performance](https://developer.ibm.com/hadoop/2015/12/03/parquet-for-spark-sql/)

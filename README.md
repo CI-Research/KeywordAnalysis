@@ -5,6 +5,7 @@ Word analysis, by domain, on the Common Crawl data set for the purpose of findin
 ## Process
 ### Specific Domain Data Capturing
 #### Common Crawl IBM data capturing
+***Note that remote_copy project does not work now due to dataset path deprecated***
 1. Start one node AWS EMR spark cluster
 2. SSH to the instance: ec2-54-196-129-41.compute-1.amazonaws.com (change)   user: hadoop 
 3. sudo yum -y install git

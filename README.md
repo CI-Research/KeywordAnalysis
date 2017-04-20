@@ -1,9 +1,6 @@
 # KeywordAnalysis
 Word analysis, by domain, on the Common Crawl data set for the purpose of finding industry trends
 
-spark-shell --packages com.databricks:spark-csv_2.11:1.5.0[hadoop@ip-10-0-1-27 ~]$ aws s3 cp s3://CommonCrawl/netapp_boiler_top20000_np.csv /var/tmpdownload: s3://CommonCrawl/netapp_boiler_top20000_np.csv to ../../var/tmp/netapp_boiler_top20000_np.csv[hadoop@ip-10-0-1-27 ~]$ hdfs dfs -put /var/tmp/netapp_boiler_top20000_np.csv /user/hadoop/data/Spark 1.4+import org.apache.spark.sql.SQLContextval sqlContext = new SQLContext(sc)val df = sqlContext.read.format("com.databricks.spark.csv").option("header", "true").option("inferSchema", "true") .load("/user/hadoop/data/netapp_boiler_top20000_wc.csv")
-val selectedData = df.select("words", "count")selectedData.write.format("com.databricks.spark.csv").option("header", "true").save("netappparquet.csv")
-
 ***
 ## Process
 ### Specific Domain Data Capturing
@@ -135,8 +132,13 @@ Top 10 words
 
 Convert Text to Parquet, Spark 2.0 convert into parquet file in much more efficient than spark1.6.
 ```
+[hadoop@ip-10-0-1-27 ~]$ aws s3 cp s3://CommonCrawl/netapp_boiler_top20000_np.csv /var/tmp
+[hadoop@ip-10-0-1-27 ~]$ hdfs dfs -put /var/tmp/netapp_boiler_top20000_np.csv /user/hadoop/data/
+Spark 1.4+
 spark-shell --packages com.databricks:spark-csv_2.11:1.5.0
-hdfs dfs -put /var/tmp/netapp_boiler_top20000.txt /user/hadoop/data/142```143```144spark-shell145```146```Scala147import org.apache.spark.ml.feature.StopWordsRemover148import org.apache.spark.sql.functions.split149150// val reg = raw"[^A-Za-z0-9\s]+" // with numbers151152val reg = raw"[^A-Za-z\s]+" // no numbers153val lines = sc.textFile("/user/hadoop/data/netapp_boiler_top20000.txt").map(_.replaceAll(reg, "").trim.toLowerCase).toDF("line")154val words = lines.select(split($"line", " ").alias("words"))155val remover = new StopWordsRemover().setInputCol("words").setOutputCol("filtered")156val noStopWords = remover.transform(words)157remover.transform(words).show(15)158159//val counts = noStopWords.select(explode($"filtered")).map(word =>(word, 1)).reduceByKey(_+_)160161// from word -> num to num -> word162//val mostCommon = counts.map(p => (p._2, p._1)).sortByKey(false, 1)163164//mostCommon.take(5)165166//dataframe dump to csv167val stringify = udf((vs: Seq[String]) => s"""[${vs.mkString(",")}]""")168words.withColumn("words", stringify($"words")).write.csv("/data/netapp_filtered.csv")169hdfs dfs -get /data/netapp_filtered.csv .170```171172### Dataframe, Dataset, Data source173174[How-to: Convert Text to Parquet in Spark to Boost Performance](https://developer.ibm.com/hadoop/2015/12/03/parquet-for-spark-sql/)175176Spark 2.0 convert into parquet file in much more efficient than spark1.6.177```178import org.apache.spark.sql.types._179var df = StructType(Array(StructField("words", StringType, true),StructField("counts", LongType, true) ))180df = spark.read.schema(df).option("header", "true").option("delimiter", "\t").csv("/user/hadoop/data/netapp_boiler_top20000.csv")181df.write.parquet("/user/hadoop/data/netapp_boiler_top20000-parquet")
+import org.apache.spark.sql.SQLContextval sqlContext = new SQLContext(sc)
+val df = sqlContext.read.format("com.databricks.spark.csv").option("header", "true").option("inferSchema", "true") .load("/user/hadoop/data/netapp_boiler_top20000_np.csv")
+val selectedData = df.select("words", "count")selectedData.write.format("com.databricks.spark.csv").option("header", "true").save("netappparquet.csv")
 ```
 
 ### Remove Stop Words

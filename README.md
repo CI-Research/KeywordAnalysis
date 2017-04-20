@@ -170,6 +170,12 @@ val remover = new StopWordsRemover().setInputCol("words").setOutputCol("filtered
 val noStopWords = remover.transform(words)
 remover.transform(words).show(15)
 
+```
+![alt text][logo]
+
+[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/s08.JPG "Logo Title Text 2"
+```
+
 //val counts = noStopWords.select(explode($"filtered")).map(word =>(word, 1)).reduceByKey(_+_)
 
 // from word -> num to num -> word

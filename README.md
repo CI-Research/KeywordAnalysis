@@ -20,8 +20,11 @@ Insert host='s3.amazonaws.com' to below lines
 def connect_s3(aws_access_key_id=None, aws_secret_access_key=None, host='s3.amazonaws.com', **kwargs)
 return S3Connection(aws_access_key_id, aws_secret_access_key, host='s3.amazonaws.com', **kwargs)
 ```
-8. cd /common_crawl_index/
-[hadoop@ip-10-43-215-181 bin]$ ./remote_copy check "com.ibm.www"
+8. 
+```
+cd /common_crawl_index/
+./remote_copy check "com.ibm.www"
+``` 
 ```
 files: 26045
 webpages: 77768
@@ -35,7 +38,7 @@ webpages: 5381
 Source compressed file size (MB): 336300
 Destination compressed file size (MB): 68
 ```
-9. ./remote_copy copy "com.ibm.www" --bucket jiaon01 –key common_crawl/ibm_storage --parallel 4
+9. ./remote_copy copy "com.ibm.www" --bucket (your s3 bucket name) –key common_crawl/(your s3 bucket path) --parallel 4
 
 ### Remove html tags
 I have run “dkpro-c4corpus” boilerplate removal code for three days with about 10 r4.4xlarge EMC instances (16vCPU, 122Gb Memory), because it works for me only on small data (20MB-100MB). And sometimes I got error “Exception in thread "main" java.lang.OutOfMemoryError: GC overhead limit exceeded”, even I have already set instance memory as huge, maybe some setting or code issue to look at later. So I have to split IBM.com data to 84 files, each file data processing (boilerplate removal) consumed 0.5~2 hours. Heavy manual work (split, recurring processing, join etc.) were done. Finally, I got plain text (s3://CommonCrawl/ibm_boiler) of IBM.com (data size decreased from 7GB with html tags to 1GB plain text). And ran spark word count for the IBM.com plain text and got the top60000 (attached) and word count results (s3://CommonCrawl/wordcount-output/wordcount-ibm_bolier).

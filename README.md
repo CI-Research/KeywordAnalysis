@@ -9,8 +9,8 @@ Word analysis, by domain, on the Common Crawl data set for the purpose of findin
 2. SSH to the instance: ec2-54-196-129-41.compute-1.amazonaws.com (change)   user: hadoop 
 3. sudo yum -y install git
 4. git clone https://github.com/trivio/common_crawl_index
-5. export AWS_ACCESS_KEY= (your access key)
-6. export AWS_SECRET_KEY= (your secret key)
+5. export AWS_ACCESS_KEY=(your access key)
+6. export AWS_SECRET_KEY=(your secret key)
 7. 
 ```
 sudo vi /usr/local/lib/python2.7/site-packages/boto/__init__.py

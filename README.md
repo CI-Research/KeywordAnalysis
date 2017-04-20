@@ -1,6 +1,9 @@
 # KeywordAnalysis
 Word analysis, by domain, on the Common Crawl data set for the purpose of finding industry trends
 
+spark-shell --packages com.databricks:spark-csv_2.11:1.5.0[hadoop@ip-10-0-1-27 ~]$ aws s3 cp s3://CommonCrawl/netapp_boiler_top20000_np.csv /var/tmpdownload: s3://CommonCrawl/netapp_boiler_top20000_np.csv to ../../var/tmp/netapp_boiler_top20000_np.csv[hadoop@ip-10-0-1-27 ~]$ hdfs dfs -put /var/tmp/netapp_boiler_top20000_np.csv /user/hadoop/data/Spark 1.4+import org.apache.spark.sql.SQLContextval sqlContext = new SQLContext(sc)val df = sqlContext.read.format("com.databricks.spark.csv").option("header", "true").option("inferSchema", "true") .load("/user/hadoop/data/netapp_boiler_top20000_wc.csv")
+val selectedData = df.select("words", "count")selectedData.write.format("com.databricks.spark.csv").option("header", "true").save("netappparquet.csv")
+
 ***
 ## Process
 ### Specific Domain Data Capturing

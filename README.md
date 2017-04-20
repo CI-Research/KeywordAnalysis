@@ -11,21 +11,30 @@ Word analysis, by domain, on the Common Crawl data set for the purpose of findin
 4. git clone https://github.com/trivio/common_crawl_index
 5. export AWS_ACCESS_KEY= (your access key)
 6. export AWS_SECRET_KEY= (your secret key)
-7. sudo vi /usr/local/lib/python2.7/site-packages/boto/__init__.py
+7. 
+```
+sudo vi /usr/local/lib/python2.7/site-packages/boto/__init__.py
+```
+Insert host='s3.amazonaws.com' to below lines 
 ```
 def connect_s3(aws_access_key_id=None, aws_secret_access_key=None, host='s3.amazonaws.com', **kwargs)
 return S3Connection(aws_access_key_id, aws_secret_access_key, host='s3.amazonaws.com', **kwargs)
 ```
-8. [hadoop@ip-10-43-215-181 bin]$ ./remote_copy check "com.ibm.www"
+8. cd /common_crawl_index/
+[hadoop@ip-10-43-215-181 bin]$ ./remote_copy check "com.ibm.www"
+```
 files: 26045
 webpages: 77768
 Source compressed file size (MB): 2604500
 Destination compressed file size (MB): 3197
+```
 [hadoop@ip-10-43-215-181 bin]$ ./remote_copy check "com.netapp.www"
+```
 files: 3363
 webpages: 5381
 Source compressed file size (MB): 336300
 Destination compressed file size (MB): 68
+```
 9. ./remote_copy copy "com.ibm.www" --bucket jiaon01 –key common_crawl/ibm_storage --parallel 4
 
 ### Remove html tags

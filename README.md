@@ -133,12 +133,16 @@ Top 10 words
 Convert Text to Parquet, Spark 2.0 convert into parquet file in much more efficient than spark1.6.
 ```
 [hadoop@ip-10-0-1-27 ~]$ aws s3 cp s3://CommonCrawl/netapp_boiler_top20000_np.csv /var/tmp
-[hadoop@ip-10-0-1-27 ~]$ hdfs dfs -put /var/tmp/netapp_boiler_top20000_np.csv /user/hadoop/data/
+[hadoop@ip-10-0-1-27 ~]$ hdfs dfs -put /var/tmp/netapp_boiler_top20000_np.csv /user/hadoop/
+```
 Spark 1.4+
+```
 spark-shell --packages com.databricks:spark-csv_2.11:1.5.0
-import org.apache.spark.sql.SQLContextval sqlContext = new SQLContext(sc)
-val df = sqlContext.read.format("com.databricks.spark.csv").option("header", "true").option("inferSchema", "true") .load("/user/hadoop/data/netapp_boiler_top20000_np.csv")
-val selectedData = df.select("words", "count")selectedData.write.format("com.databricks.spark.csv").option("header", "true").save("netappparquet.csv")
+import org.apache.spark.sql.SQLContext
+val sqlContext = new SQLContext(sc)
+val df = sqlContext.read.format("com.databricks.spark.csv").option("header", "true").option("inferSchema", "true").load("/user/hadoop/netapp_boiler_top20000_np.csv")
+val selectedData = df.select("words", "count")
+selectedData.write.format("com.databricks.spark.csv").option("header", "true").save("netappparquet.csv")
 ```
 
 ### Remove Stop Words
@@ -161,10 +165,10 @@ spark-shell
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.sql.functions.split
 
-// val reg = raw"[^A-Za-z0-9\s]+" // with numbers
+// val reg = raw"[^A-Za-z0-9\s]+" // remove punctuation with numbers
 
-val reg = raw"[^A-Za-z\s]+" // no numbers
-val lines = sc.textFile("/user/hadoop/data/netapp_boiler_top20000.txt").map(_.replaceAll(reg, "").trim.toLowerCase).toDF("line")
+val reg = raw"[^A-Za-z\s]+" // remove punctuation not include numbers
+val lines = sc.textFile("/user/hadoop/netapp_boiler_top20000_np.csv").map(_.replaceAll(reg, "").trim.toLowerCase).toDF("line")
 val words = lines.select(split($"line", " ").alias("words"))
 val remover = new StopWordsRemover().setInputCol("words").setOutputCol("filtered")
 val noStopWords = remover.transform(words)
@@ -185,6 +189,6 @@ remover.transform(words).show(15)
 
 //dataframe dump to csv
 val stringify = udf((vs: Seq[String]) => s"""[${vs.mkString(",")}]""")
-words.withColumn("words", stringify($"words")).write.csv("/data/netapp_filtered.csv")
-hdfs dfs -get /data/netapp_filtered.csv .
+words.withColumn("words", stringify($"words")).write.csv("/netapp_filtered.csv")
+hdfs dfs -get /netapp_filtered.csv .
 ```

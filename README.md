@@ -192,3 +192,39 @@ val stringify = udf((vs: Seq[String]) => s"""[${vs.mkString(",")}]""")
 words.withColumn("words", stringify($"words")).write.csv("/netapp_filtered.csv")
 hdfs dfs -get /netapp_filtered.csv .
 ```
+
+```
+4.24
+***success!sudo yum install -y gitgit clone https://github.com/phatak-dev/spark-two-migrationhdfs dfs -put /spark-two-migration/test_data/sales.csv .spark-shellimport org.apache.spark.ml.feature.StopWordsRemoverimport org.apache.spark.sql.functions.splitimport org.apache.spark.sql.types._import org.apache.spark.sql.SQLContextimport org.apache.spark.sql.types.{StructType, StructField, StringType, IntegerType}val sqlContext = new SQLContext(sc)val loadedDF = sqlContext.read.format("csv").option("header", "true").load("sales.csv")loadedDF.columnsloadedDF.show(15)****success!aws s3 cp s3://CommonCrawl/netapp_boiler_top20000_np.csv /var/tmphdfs dfs -put /var/tmp/netapp_boiler_top20000_np.csv /user/hadoop/val wikiDF = sqlContext.read.format("csv").option("header", "true").load("netapp_boiler_top20000_np.csv")wikiDF.columnswikiDF.show(15)****val wiki2DF = spark.read.parquet("saves_parquet.csv/part-00000-08d951ae-c1eb-48b8-9091-9d6dcf4d3bbf.csv").cache()wikiDF.columnswikiDF.show(5)
+wikiDF.write.format("csv").option("header", "true").save("netappparquet")val wiki2DF = spark.read.parquet("netapp_parquet1.csv").cache()wikiDF.columnswikiDF.show(5)
+loadedDF.write.format("csv").option("header", "true").save("saves_parquet.csv/part-00000-08d951ae-c1eb-48b8-9091-9d6dcf4d3bbf.csv")val wikiDF = spark.read.parquet("saves_parquet.csv")
+val wikiDF = sqlContext.read.format("csv").option("header", "true").load("netapp_boiler_top20000_np.csv")val wikiDF = sqlContext.read.format("csv").option("header", "true").load("sales.csv")val wikiLoweredDF = wikiDF.select($"*", lower($"words").as("lowerText"))wikiLoweredDF.show(2)
+import org.apache.spark.ml.feature.{RegexTokenizer, StopWordsRemover, HashingTF, IDF, Normalizer}val tokenizer = new RegexTokenizer().setInputCol("lowerText").setOutputCol("words2").setPattern("""\W+""")val wikiWordsDF = tokenizer.transform(wikiLoweredDF)wikiWordsDF.printSchemawikiWordsDF.select("words").first
+import org.apache.spark.sql.SparkSessionval spark = SparkSession.builder().appName("Spark SQL basic example").config("spark.some.config.option", "some-value").getOrCreate()import spark.implicits._val sqlContext = new SQLContext(sc)val df = sqlContext.read.format("csv").option("header", "true").load("netapp_boiler_top20000_np.csv")df.show()import spark.implicits._df.printSchema()df.select("count").show()df.select($"words", $"count").show()df.filter($"count" > 10000).show()df.groupBy("count").count().show()df.groupBy("words").count().show()val usersDF = spark.read.load("netappparquet.csv")usersDF.select("name", "favorite_color").write.save("namesAndFavColors.parquet")
+dbwiki***import org.apache.spark.ml.feature.StopWordsRemoverimport org.apache.spark.sql.functions.splitimport org.apache.spark.sql.types._import org.apache.spark.sql.SQLContextimport org.apache.spark.sql.types.{StructType, StructField, StringType, IntegerType}val sqlContext = new SQLContext(sc)val netappDF = sqlContext.read.format("csv").option("header", "true").load("netapp_boiler_top20000_np.csv")netappDF.columnsnetappDF.show(15)netappDF.printSchema()netappDF.select("count").show()netappDF.select($"words", $"count").show()netappDF.filter($"count" > 10000).show()netappDF.groupBy("count").count().show()netappDF.groupBy("words").count().show()
+Lower case the text:val netappLoweredDF = netappDF.select($"*", lower($"words").as("lowerText"))netappLoweredDF.show(2)
+Set up the ML Pipeline:import org.apache.spark.ml.feature.{RegexTokenizer, StopWordsRemover, HashingTF, IDF, Normalizer}
+Step 1: Natural Language Processing: RegexTokenizer: Convert the lowerText col to a bag of wordsval tokenizer = new RegexTokenizer().setInputCol("lowerText").setOutputCol("netappwords").setPattern("""\W+""")val netappWordsDF = tokenizer.transform(netappLoweredDF.na.drop(Array("lowerText")))netappWordsDF.printSchemanetappWordsDF.select("netappwords").first
+Step 2: Natural Language Processing: StopWordsRemover: Remove Stop wordsval remover = new StopWordsRemover().setInputCol("netappwords").setOutputCol("noStopWords")val noStopWordsListDF = remover.transform(netappWordsDF)noStopWordsListDF.printSchemanoStopWordsListDF.select("words", "count", "netappwords", "noStopWords").show(20)noStopWordsListDF.show(15)
+Step 3: HashingTF// More features = more complexity and computational time and accuracy
+val hashingTF = new HashingTF().setInputCol("noStopWords").setOutputCol("hashingTF").setNumFeatures(20000)val featurizedDataDF = hashingTF.transform(noStopWordsListDF)featurizedDataDF.printSchemafeaturizedDataDF.select("words", "count", "netappwords", "noStopWords").show(7)
+Step 4: IDF// This will take 30 seconds or so to runval idf = new IDF().setInputCol("hashingTF").setOutputCol("idf")val idfModel = idf.fit(featurizedDataDF)
+Step 5: Normalizer// A normalizer is a common operation for text classification.
+// It simply gets all of the data on the same scale... for example, if one article is much longer and another, it'll normalize the scales for the different features.
+// If we don't normalize, an article with more words would be weighted differently
+val normalizer = new Normalizer().setInputCol("idf").setOutputCol("features")
+Step 6: k-means & tie it all together...
+import org.apache.spark.ml.Pipelineimport org.apache.spark.ml.clustering.KMeans
+val kmeans = new KMeans().setFeaturesCol("features").setPredictionCol("prediction").setK(8).setSeed(0) 
+// for reproducability
+val pipeline = new Pipeline().setStages(Array(tokenizer, remover, hashingTF, idf, normalizer, kmeans))
+// This can take more 1 hour to run!/*val model = pipeline.fit(netappLoweredDF.na.drop(Array("lowerText")))*/
+****-over all success!aws s3 cp s3://CommonCrawl/ibm_boiler_top60000.csv /var/tmphdfs dfs -put /var/tmp/ibm_boiler_top60000.csv /user/hadoop/
+val model2 = org.apache.spark.ml.PipelineModel.load("netapp_boiler_top20000_np.csv")
+val model2 = org.apache.spark.ml.PipelineModel.load("saves_parquet.csv")
+input path error
+Let's take a look at a sample of the data to see if we can see a pattern between predicted clusters and titles.val rawPredictionsDF = model.transform(netappLoweredDF.na.drop(Array("lowerText")))rawPredictionsDF.columnsrawPredictionsDF.show(10)val predictionsDF = rawPredictionsDF.select($"words", $"prediction").cachepredictionsDF.show(15)
+// This could take up to 5 minutes.predictionsDF.groupBy("prediction").count().orderBy($"count" desc).show(100)display(predictionsDF.filter("prediction = 3").select("words", "prediction").limit(30))display(predictionsDF.filter("prediction = 4").select("words", "prediction").limit(30))display(predictionsDF.filter("prediction = 2").select("words", "prediction").limit(30))predictionsDF.filter($"title" === "Apache Spark").show(10)display(predictionsDF.filter("prediction = 25").limit(25))
+
+***
+```

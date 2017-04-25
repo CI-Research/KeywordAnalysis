@@ -256,13 +256,9 @@ noStopWordsListDF.printSchema
 noStopWordsListDF.select("words", "count", "netappwords", "noStopWords").show(20)
 noStopWordsListDF.show(15)
 ```
-![alt text][logo]
+![alt text](https://raw.githubusercontent.com/CI-Research/KeywordAnalysis/master/snapshot/s14_1.jpg "Logo Title Text 3")
 
-[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s14_1.JPG "Logo Title Text 2"
-
-![alt text][logo]
-
-[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s15_1.JPG "Logo Title Text 2"
+![alt text](https://raw.githubusercontent.com/CI-Research/KeywordAnalysis/master/snapshot/s15_1.jpg "Logo Title Text 4")
 
 Step 3: HashingTF// More features = more complexity and computational time and accuracy
 
@@ -328,14 +324,8 @@ display(predictionsDF.filter("prediction = 2").select("words", "prediction").lim
 predictionsDF.filter($"title" === "Apache Spark").show(10)
 display(predictionsDF.filter("prediction = 25").limit(25))
 ```
-![alt text][logo]
+![alt text](https://raw.githubusercontent.com/CI-Research/KeywordAnalysis/master/snapshot/s22_1.jpg "Logo Title Text 5")
 
-[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s22_1.JPG "Logo Title Text 2"
+![alt text](https://raw.githubusercontent.com/CI-Research/KeywordAnalysis/master/snapshot/s24_1.jpg "Logo Title Text 6")
 
-![alt text][logo]
-
-[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s24_1.JPG "Logo Title Text 2"
-
-![alt text][logo]
-
-[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s25_1.JPG "Logo Title Text 2"
+![alt text](https://raw.githubusercontent.com/CI-Research/KeywordAnalysis/master/snapshot/s25_1.jpg "Logo Title Text 7")

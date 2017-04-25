@@ -195,6 +195,19 @@ hdfs dfs -get /netapp_filtered.csv .
 
 ### Machine Learning Pipeline: TF-IDF and K-Means
 
+Introducing the TF-IDF method for vectorizing a "bag of words"
+
+TF: "Term Frequency"
+- normalized for the length of the document
+- hashed into a fixed-length set of buckets ("the hashing trick") so that we don't have an extremely high number of dimensions (count of all distinct tokens)
+- downside: there will be some hash collisions, where unrelated words get mapped to the same "dimension"
+
+IDF: "Inverse Document Frequency"
+- Normalize word counts based on how frequently a word occurs in the corpus.
+- Logarithmic transformation so that words which occur in literally every document (100% or 1.0) get weighted down to 0 (ln 1)
+- Rare words are weighted heavily
+- Helpful where rare, technical vocabulary constitutes distinguishing features
+
 In spark 2.0, Spark has made csv a built-in source. We can create Dataframes from csv file.
 
 `sudo yum install -y git`

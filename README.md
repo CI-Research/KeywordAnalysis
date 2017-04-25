@@ -177,7 +177,7 @@ remover.transform(words).show(15)
 ```
 ![alt text][logo]
 
-[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/s08.JPG "Logo Title Text 2"
+[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s08.JPG "Logo Title Text 2"
 ```
 
 //val counts = noStopWords.select(explode($"filtered")).map(word =>(word, 1)).reduceByKey(_+_)
@@ -194,14 +194,20 @@ hdfs dfs -get /netapp_filtered.csv .
 ```
 
 ### Machine Learning Pipeline: TF-IDF and K-Means
-4.24
 
-```
-sudo yum install -y git
-git clone https://github.com/phatak-dev/spark-two-migration
-aws s3 cp s3://CommonCrawl/netapp_boiler_top20000_np.csv /var/tmp
-hdfs dfs -put /var/tmp/netapp_boiler_top20000_np.csv /user/hadoop/
-spark-shell
+In spark 2.0, Spark has made csv a built-in source. We can create Dataframes from csv file.
+
+`sudo yum install -y git`
+
+`git clone https://github.com/phatak-dev/spark-two-migration`
+
+`aws s3 cp s3://CommonCrawl/netapp_boiler_top20000_np.csv /var/tmp`
+
+`hdfs dfs -put /var/tmp/netapp_boiler_top20000_np.csv /user/hadoop/`
+
+`spark-shell`
+
+```Scala
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.sql.functions.split
 import org.apache.spark.sql.types._
@@ -217,28 +223,119 @@ netappDF.select($"words", $"count").show()
 netappDF.filter($"count" > 10000).show()
 netappDF.groupBy("count").count().show()
 netappDF.groupBy("words").count().show()
-Lower case the text:val netappLoweredDF = netappDF.select($"*", lower($"words").as("lowerText"))netappLoweredDF.show(2)
-Set up the ML Pipeline:import org.apache.spark.ml.feature.{RegexTokenizer, StopWordsRemover, HashingTF, IDF, Normalizer}
-Step 1: Natural Language Processing: RegexTokenizer: Convert the lowerText col to a bag of wordsval tokenizer = new RegexTokenizer().setInputCol("lowerText").setOutputCol("netappwords").setPattern("""\W+""")val netappWordsDF = tokenizer.transform(netappLoweredDF.na.drop(Array("lowerText")))netappWordsDF.printSchemanetappWordsDF.select("netappwords").first
-Step 2: Natural Language Processing: StopWordsRemover: Remove Stop wordsval remover = new StopWordsRemover().setInputCol("netappwords").setOutputCol("noStopWords")val noStopWordsListDF = remover.transform(netappWordsDF)noStopWordsListDF.printSchemanoStopWordsListDF.select("words", "count", "netappwords", "noStopWords").show(20)noStopWordsListDF.show(15)
+```
+
+Lower case the text:
+
+```Scala
+val netappLoweredDF = netappDF.select($"*", lower($"words").as("lowerText"))
+netappLoweredDF.show(2)
+```
+
+Set up the ML Pipeline:
+
+```Scala
+import org.apache.spark.ml.feature.{RegexTokenizer, StopWordsRemover, HashingTF, IDF, Normalizer}
+```
+
+Step 1: Natural Language Processing: RegexTokenizer: Convert the lowerText col to a bag of words
+
+```Scala
+val tokenizer = new RegexTokenizer().setInputCol("lowerText").setOutputCol("netappwords").setPattern("""\W+""")
+val netappWordsDF = tokenizer.transform(netappLoweredDF.na.drop(Array("lowerText")))
+netappWordsDF.printSchema
+netappWordsDF.select("netappwords").first
+```
+
+Step 2: Natural Language Processing: StopWordsRemover: Remove Stop words
+
+```Scala
+val remover = new StopWordsRemover().setInputCol("netappwords").setOutputCol("noStopWords")
+val noStopWordsListDF = remover.transform(netappWordsDF)
+noStopWordsListDF.printSchema
+noStopWordsListDF.select("words", "count", "netappwords", "noStopWords").show(20)
+noStopWordsListDF.show(15)
+```
+![alt text][logo]
+
+[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s14_1.JPG "Logo Title Text 2"
+
+![alt text][logo]
+
+[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s15_1.JPG "Logo Title Text 2"
+
 Step 3: HashingTF// More features = more complexity and computational time and accuracy
-val hashingTF = new HashingTF().setInputCol("noStopWords").setOutputCol("hashingTF").setNumFeatures(20000)val featurizedDataDF = hashingTF.transform(noStopWordsListDF)featurizedDataDF.printSchemafeaturizedDataDF.select("words", "count", "netappwords", "noStopWords").show(7)
-Step 4: IDF// This will take 30 seconds or so to runval idf = new IDF().setInputCol("hashingTF").setOutputCol("idf")val idfModel = idf.fit(featurizedDataDF)
+
+```Scala
+val hashingTF = new HashingTF().setInputCol("noStopWords").setOutputCol("hashingTF").setNumFeatures(20000)
+val featurizedDataDF = hashingTF.transform(noStopWordsListDF)
+featurizedDataDF.printSchema
+featurizedDataDF.select("words", "count", "netappwords", "noStopWords").show(7)
+```
+
+Step 4: IDF// This will take 30 seconds or so to run
+
+```Scala
+val idf = new IDF().setInputCol("hashingTF").setOutputCol("idf")
+val idfModel = idf.fit(featurizedDataDF)
+```
+
 Step 5: Normalizer// A normalizer is a common operation for text classification.
 // It simply gets all of the data on the same scale... for example, if one article is much longer and another, it'll normalize the scales for the different features.
 // If we don't normalize, an article with more words would be weighted differently
+
+```Scala
 val normalizer = new Normalizer().setInputCol("idf").setOutputCol("features")
+```
+
 Step 6: k-means & tie it all together...
-import org.apache.spark.ml.Pipelineimport org.apache.spark.ml.clustering.KMeans
+
+```Scala
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.clustering.KMeans
 val kmeans = new KMeans().setFeaturesCol("features").setPredictionCol("prediction").setK(8).setSeed(0) 
 // for reproducability
 val pipeline = new Pipeline().setStages(Array(tokenizer, remover, hashingTF, idf, normalizer, kmeans))
-// This can take more 1 hour to run!/*val model = pipeline.fit(netappLoweredDF.na.drop(Array("lowerText")))*/
-****-over all success!aws s3 cp s3://CommonCrawl/ibm_boiler_top60000.csv /var/tmphdfs dfs -put /var/tmp/ibm_boiler_top60000.csv /user/hadoop/
-val model2 = org.apache.spark.ml.PipelineModel.load("netapp_boiler_top20000_np.csv")
-val model2 = org.apache.spark.ml.PipelineModel.load("saves_parquet.csv")
-input path error
-Let's take a look at a sample of the data to see if we can see a pattern between predicted clusters and titles.val rawPredictionsDF = model.transform(netappLoweredDF.na.drop(Array("lowerText")))rawPredictionsDF.columnsrawPredictionsDF.show(10)val predictionsDF = rawPredictionsDF.select($"words", $"prediction").cachepredictionsDF.show(15)
-// This could take up to 5 minutes.predictionsDF.groupBy("prediction").count().orderBy($"count" desc).show(100)display(predictionsDF.filter("prediction = 3").select("words", "prediction").limit(30))display(predictionsDF.filter("prediction = 4").select("words", "prediction").limit(30))display(predictionsDF.filter("prediction = 2").select("words", "prediction").limit(30))predictionsDF.filter($"title" === "Apache Spark").show(10)display(predictionsDF.filter("prediction = 25").limit(25))
+// This can take more 1 hour to run!/*
+val model = pipeline.fit(netappLoweredDF.na.drop(Array("lowerText")))
+*/
 ```
 
+Prediction
+
+`aws s3 cp s3://CommonCrawl/ibm_boiler_top60000.csv /var/tmp`
+
+`hdfs dfs -put /var/tmp/ibm_boiler_top60000.csv /user/hadoop/`
+
+```Scala
+// val model2 = org.apache.spark.ml.PipelineModel.load("netapp_boiler_top20000_np.csv")
+// val model2 = org.apache.spark.ml.PipelineModel.load("saves_parquet.csv")
+// input path error
+```
+
+Let's take a look at a sample of the data to see if we can see a pattern between predicted clusters and titles.
+
+```Scala
+val rawPredictionsDF = model.transform(netappLoweredDF.na.drop(Array("lowerText")))
+rawPredictionsDF.columns
+rawPredictionsDF.show(10)
+val predictionsDF = rawPredictionsDF.select($"words", $"prediction").cache
+predictionsDF.show(15)
+// This could take up to 5 minutes.predictionsDF.groupBy("prediction").count().orderBy($"count" desc).show(100)
+display(predictionsDF.filter("prediction = 3").select("words", "prediction").limit(30))
+display(predictionsDF.filter("prediction = 4").select("words", "prediction").limit(30))
+display(predictionsDF.filter("prediction = 2").select("words", "prediction").limit(30))
+predictionsDF.filter($"title" === "Apache Spark").show(10)
+display(predictionsDF.filter("prediction = 25").limit(25))
+```
+![alt text][logo]
+
+[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s22_1.JPG "Logo Title Text 2"
+
+![alt text][logo]
+
+[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s24_1.JPG "Logo Title Text 2"
+
+![alt text][logo]
+
+[logo]:https://github.com/CI-Research/KeywordAnalysis/blob/master/snapshot/s25_1.JPG "Logo Title Text 2"

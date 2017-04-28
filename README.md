@@ -254,6 +254,9 @@ netappDF.select($"words", $"count").show()
 netappDF.filter($"count" > 10000).show()
 netappDF.groupBy("count").count().show()
 netappDF.groupBy("words").count().show()
+//try sql query to display specific word
+//netappDF.createOrReplaceTempView("netappsql")
+//val sqlDF = spark.sql("SELECT words, count FROM netappsql WHERE words = 'database'".show(20) 
 ```
 
 Lower case the text:

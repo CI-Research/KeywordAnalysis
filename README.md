@@ -48,7 +48,7 @@ Destination compressed file size (MB): 68
 
 Run wget from laptop Linux virtual machine
 ```
-wget -r -nc -np "http://www.ibm.com/"
+wget -r -nc -np "http://www.netapp.com/"
 ```
 ```
 FINISHED --2017-04-28 05:03:37--

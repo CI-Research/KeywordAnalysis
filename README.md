@@ -3,7 +3,7 @@ Word analysis, by domain, on the Common Crawl data set for the purpose of findin
 
 ***
 ## Process
-### Specific Domain Data Capturing
+### Specific Domain Data Capturing 
 #### Common Crawl IBM data capturing
 ***Note that remote_copy project does not work now due to dataset path deprecated***
 1. Start one node AWS EMR spark cluster
@@ -43,6 +43,24 @@ Destination compressed file size (MB): 68
 ```
 ./remote_copy copy "com.ibm.www" --bucket (your s3 bucket name) –key common_crawl/(your s3 bucket path) --parallel 4
 ```
+
+#### Wget NetApp data capturing
+
+Run wget from laptop Linux virtual machine
+```
+wget -r -nc -np "http://www.ibm.com/"
+```
+```
+FINISHED --2017-04-28 05:03:37--
+Total wall clock time: 9h 14m 12s
+Downloaded: 10255 files, 1.1G in 4h 51m 33s (67.6 KB/s)
+after zip/unzip: 10,000 files, 1,429 folders, 1.11GB
+```
+```
+zip -r NetApp_April_2017 www.netapp.com/
+find . -type f -exec cat {} + > Netapp_April_2017.txt
+```
+Upload files to AWS S3 bucket for use.
 
 ### Remove html tags
 I have run “dkpro-c4corpus” boilerplate removal code for three days with about 10 r4.4xlarge EMC instances (16vCPU, 122Gb Memory), because it works for me only on small data (20MB-100MB). And sometimes I got error “Exception in thread "main" java.lang.OutOfMemoryError: GC overhead limit exceeded”, even I have already set instance memory as huge, maybe some setting or code issue to look at later. So I have to split IBM.com data to 84 files, each file data processing (boilerplate removal) consumed 0.5~2 hours. Heavy manual work (split, recurring processing, join etc.) were done. Finally, I got plain text (s3://CommonCrawl/ibm_boiler) of IBM.com (data size decreased from 7GB with html tags to 1GB plain text). And ran spark word count for the IBM.com plain text and got the top60000 (attached) and word count results (s3://CommonCrawl/wordcount-output/wordcount-ibm_bolier).

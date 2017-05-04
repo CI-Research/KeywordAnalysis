@@ -6,7 +6,9 @@ Word analysis, by domain, on the Common Crawl data set for the purpose of findin
 ### Specific Domain Data Capturing 
 #### Common Crawl IBM data capturing
 ***Note that remote_copy project does not work now due to dataset path deprecated***
-1. Start one node AWS EMR spark cluster
+1. Start one node AWS EMR spark cluster (Go to Advanced and select Hadoop, Saprk, and Zeppelin)
+Size: Master:m3.xlarge, two of Core m3.xlarge - Both On-Demand
+Give cluster name that has Date or Trial name, and uncheck Termination protection
 2. SSH to the instance: ec2-54-196-129-41.compute-1.amazonaws.com (change)   user: hadoop 
 3. sudo yum -y install git
 4. git clone https://github.com/trivio/common_crawl_index

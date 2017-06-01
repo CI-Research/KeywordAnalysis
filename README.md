@@ -4,7 +4,19 @@ Word analysis, by domain, on the Common Crawl data set for the purpose of findin
 ***
 ## Process
 ### Specific Domain Data Capturing 
-#### Common Crawl IBM data capturing
+#### Common Crawl NetApp data capturing (New Index - after 2013)
+1. Start one node AWS EMR spark cluster (Go to Advanced and select Hadoop, Saprk, and Zeppelin) Size: Master:m3.xlarge, two of Core m3.xlarge - Both On-Demand Give cluster name that has Date or Trial name, and uncheck Termination protection
+2. SSH to the instance: ec2-54-196-129-41.compute-1.amazonaws.com (change) user: hadoop
+3. sudo yum -y install git
+4. git clone git://github.com/centic9/CommonCrawlDocumentDownload
+5. cd CommonCrawlDocumentDownload
+6. ./gradlew check
+7. ./gradlew lookupURLs
+8. ./gradlew downloadDocuments
+9. Use below command to download data before CC-MAIN-2015-22_May (old index)
+./gradlew downloadOldIndex
+
+#### Common Crawl IBM data capturing (Old Index - 2012)
 ***Note that remote_copy project does not work now due to dataset path deprecated***
 1. Start one node AWS EMR spark cluster (Go to Advanced and select Hadoop, Saprk, and Zeppelin)
 Size: Master:m3.xlarge, two of Core m3.xlarge - Both On-Demand

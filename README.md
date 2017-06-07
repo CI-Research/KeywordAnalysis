@@ -5,25 +5,29 @@ Word analysis, by domain, on the Common Crawl data set for the purpose of findin
 ## Process
 ### Specific Domain Data Capturing 
 #### Common Crawl NetApp data capturing (New Index - after 2013)
-1. Start one node AWS EMR spark cluster (Go to Advanced and select Hadoop, Saprk, and Zeppelin) Size: Master:m3.xlarge, two of Core m3.xlarge - Both On-Demand Give cluster name that has Date or Trial name, and uncheck Termination protection
+1. Start one node AWS EMR spark cluster 
 2. SSH to the instance: ec2-54-196-129-41.compute-1.amazonaws.com (change) user: hadoop
-3. sudo yum -y install git; cd /var/tmp
-4. git clone git://github.com/centic9/CommonCrawlDocumentDownload
-5. cd CommonCrawlDocumentDownload
-6. rm src/main/java/org/dstadler/commoncrawl/index/CDXItem.java
-7. wget https://github.com/CI-Research/KeywordAnalysis/raw/master/CDXItem.java 
-8. mv CDXItem.java src/main/java/org/dstadler/commoncrawl/index/
-9. ./gradlew check
-10. ./gradlew lookupURLs (immediately "Ctrl + C" to cancel the process)
-11. wget https://github.com/CI-Research/KeywordAnalysis/raw/master/data/CC-MAIN-2016-30_July_Netapp.txt 
-12. Replace "commoncrawl-CC-MAIN-2017-13.txt" with "CC-MAIN-2016-30_July_Netapp.txt"
-8. ./gradlew downloadDocuments
-9. Use below command to download data before CC-MAIN-2015-22_May (old index)
-./gradlew downloadOldIndex
-10. Uploade data to S3
+```
+sudo yum -y install git; cd /var/tmp
+git clone git://github.com/centic9/CommonCrawlDocumentDownload
+cd CommonCrawlDocumentDownload
+rm src/main/java/org/dstadler/commoncrawl/index/CDXItem.java
+wget https://github.com/CI-Research/KeywordAnalysis/raw/master/CDXItem.java 
+mv CDXItem.java src/main/java/org/dstadler/commoncrawl/index/
+./gradlew check
+./gradlew lookupURLs // immediately "Ctrl + C" to cancel the process
+wget https://github.com/CI-Research/KeywordAnalysis/raw/master/data/CC-MAIN-2016-30_July_Netapp.txt 
+// Replace "commoncrawl-CC-MAIN-2017-13.txt" with "CC-MAIN-2016-30_July_Netapp.txt"
+sudo vi CC-MAIN-2016-30_July_Netapp.txt
+:set nobomb
+:wq
+./gradlew downloadDocuments
+```
+3. Uploade data to S3
+```
 cd /var/tmp/download
 aws s3 sync . s3://CommonCrawl/data/CC-MAIN-2016-30_July_Netap/
-
+```
 #### Common Crawl IBM data capturing (Old Index - 2012)
 ***Note that remote_copy project does not work now due to dataset path deprecated***
 1. Start one node AWS EMR spark cluster (Go to Advanced and select Hadoop, Saprk, and Zeppelin)
@@ -131,7 +135,15 @@ cd dkpro-c4corpus/dkpro-c4corpus-boilerplate/
 mvn package
 java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar /var/tmp/26279 /var/tmp/ibm_boiler false
 ```
-
+### Remove html tags without split file
+1. Create script to process the file
+```
+vi html_boiler.sh
+#!/bin/bash
+for filename in /var/tmp/download/*; do
+    java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar "$filename" "/var/tmp/netapp_boiler/$(basename "$filename" .txt)" false  
+done
+```
 ### Wordcount process
 1. 
 ```

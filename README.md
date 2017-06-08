@@ -69,7 +69,8 @@ export PATH=/home/hadoop/apache-maven-3.5.0/bin:$PATH
 cd dkpro-c4corpus/dkpro-c4corpus-boilerplate/
 mvn package
 ```
-11. Create script to process the file
+11. mkdir /var/tmp/boiler
+12. Create script to process the file
 ```
 vi boiler.sh
 #!/bin/bash
@@ -77,10 +78,10 @@ for filename in /var/tmp/CC-MAIN*/*; do
     java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar "$filename" "/var/tmp/boiler/$(basename "$filename" .txt)" false  
 done
 ```
-12. chmod +x boiler.sh
-13. nohup ./boiler.sh
-14. cd /var/tmp/boiler
-15. aws s3 sync . s3://CommonCrawl/boilerplate/netapp/CC-MAIN-2016-30_July_Netapp/
+13. chmod +x boiler.sh
+14. nohup ./boiler.sh
+15. cd /var/tmp/boiler
+16. aws s3 sync . s3://CommonCrawl/boilerplate/netapp/CC-MAIN-2016-30_July_Netapp/
 
 ### Wordcount process
 1. 

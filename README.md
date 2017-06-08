@@ -52,24 +52,24 @@ Upload files to AWS S3 bucket for use.
 1. Start 1 nodes AWS EMR (Advance config: Hadoop only, Network "EC2-Classic", Master "m1.large", Core "0")
 2. SSH to the instance: ec2-54-90-80-85.compute-1.amazonaws.com (change)   user: hadoop 
 3. sudo yum install -y git
-5. wget http://supergsego.com/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
-6. tar zxvf apache-maven-3.5.0-bin.tar.gz
-7. sudo vi .bashrc
+4. wget http://supergsego.com/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
+5. tar zxvf apache-maven-3.5.0-bin.tar.gz
+6. sudo vi .bashrc
 ```
 export MAVEN_HOME=/home/hadoop/apache-maven-3.5.0
 export M2_HOME=/home/hadoop/apache-maven-3.5.0
 export M2=/home/hadoop/apache-maven-3.5.0
 export PATH=/home/hadoop/apache-maven-3.5.0/bin:$PATH
 ```
-8. source .bashrc
-10. git clone https://github.com/dkpro/dkpro-c4corpus
-11. aws s3 sync s3://CommonCrawl/data/NetApp/CC-MAIN-2016-30_July_Netapp/ /var/tmp/CC-MAIN-2016-30_July_Netapp
-15. run dkpro-c4corpus-boilerplate
+7. source .bashrc
+8. git clone https://github.com/dkpro/dkpro-c4corpus
+9. aws s3 sync s3://CommonCrawl/data/NetApp/CC-MAIN-2016-30_July_Netapp/ /var/tmp/CC-MAIN-2016-30_July_Netapp
+10. run dkpro-c4corpus-boilerplate
 ```
 cd dkpro-c4corpus/dkpro-c4corpus-boilerplate/
 mvn package
 ```
-1. Create script to process the file
+11. Create script to process the file
 ```
 vi boiler.sh
 #!/bin/bash
@@ -77,10 +77,10 @@ for filename in /var/tmp/CC-MAIN*/*; do
     java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar "$filename" "/var/tmp/boiler/$(basename "$filename" .txt)" false  
 done
 ```
-2. chmod +x bolier.sh
-3. nohup ./bolier.sh
-4. cd /var/tmp/boiler
-5. aws s3 sync . s3://CommonCrawl/boilerplate/netapp/CC-MAIN-2016-30_July_Netapp/
+12. chmod +x bolier.sh
+13. nohup ./bolier.sh
+14. cd /var/tmp/boiler
+15. aws s3 sync . s3://CommonCrawl/boilerplate/netapp/CC-MAIN-2016-30_July_Netapp/
 
 ### Wordcount process
 1. 

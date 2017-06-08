@@ -107,14 +107,14 @@ spark.driver.maxResultSize       12g
 spark.driver.memory              12g
 ```
 4. sudo yum install -y git
-5. wget http://mirrors.hust.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
-6. tar zxvf apache-maven-3.3.9-bin.tar.gz
+5. wget http://supergsego.com/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
+6. tar zxvf apache-maven-3.5.0-bin.tar.gz
 7. sudo vi .bashrc
 ```
-export MAVEN_HOME=/home/hadoop/apache-maven-3.3.9
-export M2_HOME=/home/hadoop/apache-maven-3.3.9
-export M2=/home/hadoop/apache-maven-3.3.9
-export PATH=/home/hadoop/apache-maven-3.3.9/bin:$PATH
+export MAVEN_HOME=/home/hadoop/apache-maven-3.5.0
+export M2_HOME=/home/hadoop/apache-maven-3.5.0
+export M2=/home/hadoop/apache-maven-3.5.0
+export PATH=/home/hadoop/apache-maven-3.5.0/bin:$PATH
 ```
 8. source .bashrc
 9. sudo yum install -y git
@@ -138,12 +138,15 @@ java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar /var/tmp/26279 /v
 ### Remove html tags without split file
 1. Create script to process the file
 ```
-vi html_boiler.sh
+vi boiler.sh
 #!/bin/bash
 for filename in /var/tmp/download/*; do
     java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar "$filename" "/var/tmp/netapp_boiler/$(basename "$filename" .txt)" false  
 done
 ```
+2. chmod +x bolier.sh
+3. ./bolier.sh
+
 ### Wordcount process
 1. 
 ```

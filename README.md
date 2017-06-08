@@ -77,8 +77,8 @@ for filename in /var/tmp/CC-MAIN*/*; do
     java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar "$filename" "/var/tmp/boiler/$(basename "$filename" .txt)" false  
 done
 ```
-12. chmod +x bolier.sh
-13. nohup ./bolier.sh
+12. chmod +x boiler.sh
+13. nohup ./boiler.sh
 14. cd /var/tmp/boiler
 15. aws s3 sync . s3://CommonCrawl/boilerplate/netapp/CC-MAIN-2016-30_July_Netapp/
 

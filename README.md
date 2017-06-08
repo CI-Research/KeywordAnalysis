@@ -5,7 +5,7 @@ Word analysis, by domain, on the Common Crawl data set for the purpose of findin
 ## Process
 ### Specific Domain Data Capturing 
 #### Common Crawl NetApp data capturing (New Index - after 2013)
-1. Start one node AWS EMR spark cluster 
+1. Start one node AWS EMR hadoop instance (Advance config: Hadoop only, Network "EC2-Classic", Master "m1.large", Core "0")
 2. SSH to the instance: ec2-54-196-129-41.compute-1.amazonaws.com (change) user: hadoop
 ```
 sudo yum -y install git; cd /var/tmp
@@ -26,48 +26,7 @@ sudo vi CC-MAIN-2016-30_July_Netapp.txt
 3. Uploade data to S3
 ```
 cd /var/tmp/download
-aws s3 sync . s3://CommonCrawl/data/CC-MAIN-2016-30_July_Netap/
-```
-#### Common Crawl IBM data capturing (Old Index - 2012)
-***Note that remote_copy project does not work now due to dataset path deprecated***
-1. Start one node AWS EMR spark cluster (Go to Advanced and select Hadoop, Saprk, and Zeppelin)
-Size: Master:m3.xlarge, two of Core m3.xlarge - Both On-Demand
-Give cluster name that has Date or Trial name, and uncheck Termination protection
-2. SSH to the instance: ec2-54-196-129-41.compute-1.amazonaws.com (change)   user: hadoop 
-3. sudo yum -y install git
-4. git clone https://github.com/trivio/common_crawl_index
-5. export AWS_ACCESS_KEY=(your access key)
-6. export AWS_SECRET_KEY=(your secret key)
-7. 
-```
-sudo vi /usr/local/lib/python2.7/site-packages/boto/__init__.py
-```
-Insert host='s3.amazonaws.com' to below lines 
-```
-def connect_s3(aws_access_key_id=None, aws_secret_access_key=None, host='s3.amazonaws.com', **kwargs)
-return S3Connection(aws_access_key_id, aws_secret_access_key, host='s3.amazonaws.com', **kwargs)
-```
-8. 
-```
-cd /common_crawl_index/
-./remote_copy check "com.ibm.www"
-``` 
-```
-files: 26045
-webpages: 77768
-Source compressed file size (MB): 2604500
-Destination compressed file size (MB): 3197
-```
-[hadoop@ip-10-43-215-181 bin]$ ./remote_copy check "com.netapp.www"
-```
-files: 3363
-webpages: 5381
-Source compressed file size (MB): 336300
-Destination compressed file size (MB): 68
-```
-9. 
-```
-./remote_copy copy "com.ibm.www" --bucket (your s3 bucket name) –key common_crawl/(your s3 bucket path) --parallel 4
+aws s3 sync . s3://CommonCrawl/data/NetApp/CC-MAIN-2016-30_July_Netapp/
 ```
 
 #### Wget NetApp data capturing
@@ -89,24 +48,10 @@ find . -type f -exec cat {} + > Netapp_April_2017.txt
 Upload files to AWS S3 bucket for use.
 
 ### Remove html tags
-I have run “dkpro-c4corpus” boilerplate removal code for three days with about 10 r4.4xlarge EMC instances (16vCPU, 122Gb Memory), because it works for me only on small data (20MB-100MB). And sometimes I got error “Exception in thread "main" java.lang.OutOfMemoryError: GC overhead limit exceeded”, even I have already set instance memory as huge, maybe some setting or code issue to look at later. So I have to split IBM.com data to 84 files, each file data processing (boilerplate removal) consumed 0.5~2 hours. Heavy manual work (split, recurring processing, join etc.) were done. Finally, I got plain text (s3://CommonCrawl/ibm_boiler) of IBM.com (data size decreased from 7GB with html tags to 1GB plain text). And ran spark word count for the IBM.com plain text and got the top60000 (attached) and word count results (s3://CommonCrawl/wordcount-output/wordcount-ibm_bolier).
 
-1. Start 1 nodes AWS EMR spark cluster
-Advanced option: r4.4xlarge, 1node, spark, Hadoop
-Configuration:
-```
-[{"Classification": "spark", "Properties": {"maximizeResourceAllocation": "true", "spark.executor.memory": "10G", "yarn.nodemanager.pmem-check-enabled": "false", "yarn.nodemanager.vmem-check-enabled": "false"}}] 
-```
-VPC: your VPC and subnet
-
+1. Start 1 nodes AWS EMR (Advance config: Hadoop only, Network "EC2-Classic", Master "m1.large", Core "0")
 2. SSH to the instance: ec2-54-90-80-85.compute-1.amazonaws.com (change)   user: hadoop 
-
-3. sudo vi /etc/spark/conf.dist/spark-defaults.conf
-```
-spark.driver.maxResultSize       12g
-spark.driver.memory              12g
-```
-4. sudo yum install -y git
+3. sudo yum install -y git
 5. wget http://supergsego.com/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
 6. tar zxvf apache-maven-3.5.0-bin.tar.gz
 7. sudo vi .bashrc
@@ -117,35 +62,25 @@ export M2=/home/hadoop/apache-maven-3.5.0
 export PATH=/home/hadoop/apache-maven-3.5.0/bin:$PATH
 ```
 8. source .bashrc
-9. sudo yum install -y git
 10. git clone https://github.com/dkpro/dkpro-c4corpus
-11. aws s3 cp s3://CommonCrawl/ibm/26279.gz /var/tmp/
-12. gunzip 26279.gz
-13. split -n84 ibm (26279) (split file to 20-100MB)
-14. Sync file between S3 to EC2
-```
-aws s3 sync . s3://CommonCrawl/data/ibm84
-aws s3 sync s3://CommonCrawl/data/ibm84 /var/tmp/.
-aws s3 sync s3://CommonCrawl/boilerplate/pending /var/tmp/
-aws s3 cp /var/tmp/xba_boiler s3://CommonCrawl/boilerplate/ibm/
-```
+11. aws s3 sync s3://CommonCrawl/data/NetApp/CC-MAIN-2016-30_July_Netapp/ /var/tmp/CC-MAIN-2016-30_July_Netapp
 15. run dkpro-c4corpus-boilerplate
 ```
 cd dkpro-c4corpus/dkpro-c4corpus-boilerplate/
 mvn package
-java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar /var/tmp/26279 /var/tmp/ibm_boiler false
 ```
-### Remove html tags without split file
 1. Create script to process the file
 ```
 vi boiler.sh
 #!/bin/bash
-for filename in /var/tmp/download/*; do
-    java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar "$filename" "/var/tmp/netapp_boiler/$(basename "$filename" .txt)" false  
+for filename in /var/tmp/CC-MAIN*/*; do
+    java -jar target/dkpro-c4corpus-boilerplate-1.0.1-SNAPSHOT.jar "$filename" "/var/tmp/boiler/$(basename "$filename" .txt)" false  
 done
 ```
 2. chmod +x bolier.sh
-3. ./bolier.sh
+3. nohup ./bolier.sh
+4. cd /var/tmp/boiler
+5. aws s3 sync . s3://CommonCrawl/boilerplate/netapp/CC-MAIN-2016-30_July_Netapp/
 
 ### Wordcount process
 1. 

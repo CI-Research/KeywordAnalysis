@@ -21,7 +21,7 @@ public class CDXItem {
 	public long timestamp;
 	public String url;
 	public String mime;
-    public String mime-detected;
+        public String mime-detected;
 	public String status;
 	public String digest;
 	public long length;
@@ -45,23 +45,23 @@ public class CDXItem {
 						item.timestamp = jp.getValueAsLong();
 					} else if ("url".equals(name)) {
 						item.url = jp.getValueAsString().toLowerCase();
-	    			} else if ("mime".equals(name)) {
-	    				item.mime = jp.getValueAsString().toLowerCase();
-	    			} else if ("mime-detected".equals(name)) {
-	    				item.mime-detected = jp.getValueAsString().toLowerCase();
+	    				} else if ("mime".equals(name)) {
+	    					item.mime = jp.getValueAsString().toLowerCase();
+	    				} else if ("mime-detected".equals(name)) {
+	    					item.mime-detected = jp.getValueAsString().toLowerCase();
 					} else if ("status".equals(name)) {
-	    				item.status = jp.getValueAsString();
-	    			} else if ("digest".equals(name)) {
-	    				item.digest = jp.getValueAsString();
-	    			} else if ("length".equals(name)) {
-	    				item.length = jp.getValueAsLong();
-	    			} else if ("offset".equals(name)) {
-	    				item.offset = jp.getValueAsLong();
-	    			} else if ("filename".equals(name)) {
-	    				item.filename = jp.getValueAsString();
-	    			} else {
-	    				throw new IllegalStateException("Unknown field found: " + name);
-	    			}
+	    					item.status = jp.getValueAsString();
+	    				} else if ("digest".equals(name)) {
+	    					item.digest = jp.getValueAsString();
+	    				} else if ("length".equals(name)) {
+	    					item.length = jp.getValueAsLong();
+	    				} else if ("offset".equals(name)) {
+	    					item.offset = jp.getValueAsLong();
+	    				} else if ("filename".equals(name)) {
+	    					item.filename = jp.getValueAsString();
+	    				} else {
+	    					throw new IllegalStateException("Unknown field found: " + name);
+	    				}
 	    		}
 	    	}
     	}

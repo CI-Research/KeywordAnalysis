@@ -21,6 +21,7 @@ public class CDXItem {
 	public long timestamp;
 	public String url;
 	public String mime;
+    public String mime-detected;
 	public String status;
 	public String digest;
 	public long length;
@@ -46,7 +47,9 @@ public class CDXItem {
 						item.url = jp.getValueAsString().toLowerCase();
 	    			} else if ("mime".equals(name)) {
 	    				item.mime = jp.getValueAsString().toLowerCase();
-	    			} else if ("status".equals(name)) {
+	    			} else if ("mime-detected".equals(name)) {
+	    				item.mime-detected = jp.getValueAsString().toLowerCase();
+					} else if ("status".equals(name)) {
 	    				item.status = jp.getValueAsString();
 	    			} else if ("digest".equals(name)) {
 	    				item.digest = jp.getValueAsString();

@@ -8,7 +8,12 @@ Word analysis, by domain, on the Common Crawl data set for the purpose of findin
 1. Start one node AWS EMR hadoop instance (Advance config: Hadoop only, Network "EC2-Classic", Master "m1.large", Core "0")
 2. SSH to the instance: ec2-54-196-129-41.compute-1.amazonaws.com (change) user: hadoop
 ```
-sudo yum -y install git; cd /var/tmp
+sudo yum -y install git; 
+git clone https://github.com/CI-Research/cdx-index-client
+cd cdx-index-client
+pip install -r requirements.txt
+./cdx-index-client.py -c CC-MAIN-2016-30 *.netapp.com --json
+cat domain-* > CC-MAIN-2016-30_July_Netapp
 git clone git://github.com/centic9/CommonCrawlDocumentDownload
 cd CommonCrawlDocumentDownload
 rm src/main/java/org/dstadler/commoncrawl/index/CDXItem.java
@@ -16,12 +21,9 @@ wget https://github.com/CI-Research/KeywordAnalysis/raw/master/CDXItem.java
 mv CDXItem.java src/main/java/org/dstadler/commoncrawl/index/
 ./gradlew check
 ./gradlew lookupURLs // immediately "Ctrl + C" to cancel the process
-wget https://github.com/CI-Research/KeywordAnalysis/raw/master/data/CC-MAIN-2016-30_July_Netapp.txt 
-// Replace "commoncrawl-CC-MAIN-2017-13.txt" with "CC-MAIN-2016-30_July_Netapp.txt"
-sudo vi CC-MAIN-2016-30_July_Netapp.txt
-:set nobomb
-:wq
-./gradlew downloadDocuments
+cp ~/cdx-index-client/CC-MAIN-2016-30_July_Netapp ~/CommonCrawlDocumentDownload
+mv CC-MAIN-2016-30_July_Netapp commoncrawl-CC-MAIN-2017-13.txt
+nohup ./gradlew downloadDocuments
 ```
 3. Uploade data to S3
 ```

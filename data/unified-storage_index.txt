@@ -1,0 +1,7 @@
+NetApp Unified Storage Architecture
+NetApp unified storage innovations improve data center efficiency and enhance virtualization and consolidation.
+NetApp introduced you to unified storage systems more than a decade ago. Our continued leadership and unwavering commitment to innovation have resulted in an architecture unified not only across protocols and disks, but also in storage efficiency, processes, data management, and data protection.
+This level of unification is crucial if your data center is to respond to trends such as virtualization and consolidation. It's no surprise that nearly 75% of all our virtualization deployments use a unified architecture.
+A dynamic data center-built upon a shared, secure, networked storage infrastructure able to eliminate the "silos" of storage associated with various application tiers and with heterogeneous environments-can:
+• Increase the flexibility of your IT. •    Boost your IT efficiency. •    Magnify data-center savings in power, cooling, and space utilization.
+Learn more about harnessing NetApp® unified storage innovations to build a dynamic data center able to fuel your business success.

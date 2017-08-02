@@ -1,0 +1,221 @@
+Fujitsu Siemens Computers Fibre Channel TapeSAN Solution for Brocade
+The Fujitsu Siemens Computers tape libraries for fibre channel tapeSAN are listed below. All components are described in the table below. For information about switch configurations, please visit the Brocade switch page.
+The Fujitsu Siemens Computers tape libraries for fibre channel tapeSAN are listed below. All components are described in the table below. For information about switch configurations, please visit the Brocade switch page.
+NetApp delivers certified Fibre Channel (FC) Fabric TapeSAN backup solutions with multiple switch and tape storage vendors for data management in enterprise SAN environments.
+NetApp delivers certified Fibre Channel (FC) Fabric TapeSAN backup solutions with multiple switch and tape storage vendors for data management in enterprise SAN environments.
+High-speed tape backup and tape resource sharing
+High-speed tape backup and tape resource sharing
+How do I know my tape backup configuration in an FC SAN is supported? To know if your configuration is supported please click here
+The following table describes which adapters can be used with which platforms for the TapeSAN solutions. Slot information for specific platforms can be found in the Data ONTAP™ system configuration guide for a particular release.
+TapeSAN Setup for Systems
+Background information about methods for identifying tapes and media changers  
+On older systems, most tape drives were connected to the system through SCSI. In those cases, the system needed only to scan the SCSI bus to identify all the peripherals that were attached to it. However, if drives were removed or added after the system was booted, the system was not aware of the changes. A reboot was required before the configurations took effect. This method of direct connect SCSI tape device did not allow for hot swapping or dynamically changing tape configurations after the system was running.
+On older systems, most tape drives were connected to the system through SCSI. In those cases, the system needed only to scan the SCSI bus to identify all the peripherals that were attached to it. However, if drives were removed or added after the system was booted, the system was not aware of the changes. A reboot was required before the configurations took effect. This method of direct connect SCSI tape device did not allow for hot swapping or dynamically changing tape configurations after the system was running.
+On older systems, most tape drives were connected to the system through SCSI. In those cases, the system needed only to scan the SCSI bus to identify all the peripherals that were attached to it. However, if drives were removed or added after the system was booted, the system was not aware of the changes. A reboot was required before the configurations took effect. This method of direct connect SCSI tape device did not allow for hot swapping or dynamically changing tape configurations after the system was running.
+This Fibre Channel fabric TapeSAN backup solution enables hot swapping and dynamically changing tape configurations after the system is running. A Fibre Channel tape drive or library can now be connected and disconnected from the Fibre Channel switch, and the switches rescans the ports to determine whether devices were added or removed. The system detects these configuration changes in real time. It disables access to drives that disappeared, and it exports new drives for the user.
+This Fibre Channel fabric TapeSAN backup solution enables hot swapping and dynamically changing tape configurations after the system is running. A Fibre Channel tape drive or library can now be connected and disconnected from the Fibre Channel switch, and the switches rescans the ports to determine whether devices were added or removed. The system detects these configuration changes in real time. It disables access to drives that disappeared, and it exports new drives for the user.
+This Fibre Channel fabric TapeSAN backup solution enables hot swapping and dynamically changing tape configurations after the system is running. A Fibre Channel tape drive or library can now be connected and disconnected from the Fibre Channel switch, and the switches rescans the ports to determine whether devices were added or removed. The system detects these configuration changes in real time. It disables access to drives that disappeared, and it exports new drives for the user.
+After a tape drive is discovered by the system, the drive is allocated a name using the format stn, where n is a number assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention. The following are some limitations with earlier naming conventions:
+After a tape drive is discovered by the system, the drive is allocated a name using the format stn, where n is a number assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention. The following are some limitations with earlier naming conventions:
+Unlike direct attached SCSI devices, the order of device discovery on a SAN is not fixed. New tape drives can be easily added or removed from the system. Names assigned to one device can be assigned to a different device after a reboot. This dynamic naming scheme is problematic with tape drives and libraries on a SAN. To solve this naming scheme problem, the tape aliasing method was developed.
+Unlike direct attached SCSI devices, the order of device discovery on a SAN is not fixed. New tape drives can be easily added or removed from the system. Names assigned to one device can be assigned to a different device after a reboot. This dynamic naming scheme is problematic with tape drives and libraries on a SAN. To solve this naming scheme problem, the tape aliasing method was developed.
+Unlike direct attached SCSI devices, the order of device discovery on a SAN is not fixed. New tape drives can be easily added or removed from the system. Names assigned to one device can be assigned to a different device after a reboot. This dynamic naming scheme is problematic with tape drives and libraries on a SAN. To solve this naming scheme problem, the tape aliasing method was developed.
+Tape aliasing
+Tape aliasing provides a correspondence between the logical names of a backup device, for example (st0, mc1), and a name permanently assigned to a port or to a tape device. The following are three naming schemes used to assign permanent names to logical names of tape devices:
+Tape aliasing provides a correspondence between the logical names of a backup device, for example (st0, mc1), and a name permanently assigned to a port or to a tape device. The following are three naming schemes used to assign permanent names to logical names of tape devices:
+Tape aliasing provides a correspondence between the logical names of a backup device, for example (st0, mc1), and a name permanently assigned to a port or to a tape device. The following are three naming schemes used to assign permanent names to logical names of tape devices:
+A logical name is the software assigned name given to the tape device by the system. The format for tape drive logical name is stn, where n is an integer greater than or equal to 0. The value of n is assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention.
+A logical name is the software assigned name given to the tape device by the system. The format for tape drive logical name is stn, where n is an integer greater than or equal to 0. The value of n is assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention.
+A logical name is the software assigned name given to the tape device by the system. The format for tape drive logical name is stn, where n is an integer greater than or equal to 0. The value of n is assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention.
+A PPN is the numerical address sequence that Data ONTAP assigns to a tape drive and library based on which SCSI-2/3 adapter or switch they are connected to on the system. A PPN is also known as an electrical name.
+Note: Different systems can have different PPNs for the same tape device.
+A WWN is assigned to tape devices at the time of manufacture. WWN applies only to Fibre Channel devices and not to SCSI devices.
+Note: Accessing a tape device through the WWN enables multiple systems to track the same device. Also, using WWNs eliminates confusion in naming conventions sometimes caused by using PPNs.
+Mapping tape aliases
+Tape drive make and model
+Serial number of the tape drive
+Tape drive Fibre Channel WWN
+Tape drive alias nameFujitsu Siemens Computers Fibre Channel TapeSAN Solution for Brocade
+The Fujitsu Siemens Computers tape libraries for fibre channel tapeSAN are listed below. All components are described in the table below. For information about switch configurations, please visit the Brocade switch page.
+The Fujitsu Siemens Computers tape libraries for fibre channel tapeSAN are listed below. All components are described in the table below. For information about switch configurations, please visit the Brocade switch page.
+NetApp delivers certified Fibre Channel (FC) Fabric TapeSAN backup solutions with multiple switch and tape storage vendors for data management in enterprise SAN environments.
+NetApp delivers certified Fibre Channel (FC) Fabric TapeSAN backup solutions with multiple switch and tape storage vendors for data management in enterprise SAN environments.
+High-speed tape backup and tape resource sharing
+High-speed tape backup and tape resource sharing
+How do I know my tape backup configuration in an FC SAN is supported? To know if your configuration is supported please click here
+The following table describes which adapters can be used with which platforms for the TapeSAN solutions. Slot information for specific platforms can be found in the Data ONTAP™ system configuration guide for a particular release.
+TapeSAN Setup for Systems
+Background information about methods for identifying tapes and media changers  
+On older systems, most tape drives were connected to the system through SCSI. In those cases, the system needed only to scan the SCSI bus to identify all the peripherals that were attached to it. However, if drives were removed or added after the system was booted, the system was not aware of the changes. A reboot was required before the configurations took effect. This method of direct connect SCSI tape device did not allow for hot swapping or dynamically changing tape configurations after the system was running.
+On older systems, most tape drives were connected to the system through SCSI. In those cases, the system needed only to scan the SCSI bus to identify all the peripherals that were attached to it. However, if drives were removed or added after the system was booted, the system was not aware of the changes. A reboot was required before the configurations took effect. This method of direct connect SCSI tape device did not allow for hot swapping or dynamically changing tape configurations after the system was running.
+On older systems, most tape drives were connected to the system through SCSI. In those cases, the system needed only to scan the SCSI bus to identify all the peripherals that were attached to it. However, if drives were removed or added after the system was booted, the system was not aware of the changes. A reboot was required before the configurations took effect. This method of direct connect SCSI tape device did not allow for hot swapping or dynamically changing tape configurations after the system was running.
+This Fibre Channel fabric TapeSAN backup solution enables hot swapping and dynamically changing tape configurations after the system is running. A Fibre Channel tape drive or library can now be connected and disconnected from the Fibre Channel switch, and the switches rescans the ports to determine whether devices were added or removed. The system detects these configuration changes in real time. It disables access to drives that disappeared, and it exports new drives for the user.
+This Fibre Channel fabric TapeSAN backup solution enables hot swapping and dynamically changing tape configurations after the system is running. A Fibre Channel tape drive or library can now be connected and disconnected from the Fibre Channel switch, and the switches rescans the ports to determine whether devices were added or removed. The system detects these configuration changes in real time. It disables access to drives that disappeared, and it exports new drives for the user.
+This Fibre Channel fabric TapeSAN backup solution enables hot swapping and dynamically changing tape configurations after the system is running. A Fibre Channel tape drive or library can now be connected and disconnected from the Fibre Channel switch, and the switches rescans the ports to determine whether devices were added or removed. The system detects these configuration changes in real time. It disables access to drives that disappeared, and it exports new drives for the user.
+After a tape drive is discovered by the system, the drive is allocated a name using the format stn, where n is a number assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention. The following are some limitations with earlier naming conventions:
+After a tape drive is discovered by the system, the drive is allocated a name using the format stn, where n is a number assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention. The following are some limitations with earlier naming conventions:
+Unlike direct attached SCSI devices, the order of device discovery on a SAN is not fixed. New tape drives can be easily added or removed from the system. Names assigned to one device can be assigned to a different device after a reboot. This dynamic naming scheme is problematic with tape drives and libraries on a SAN. To solve this naming scheme problem, the tape aliasing method was developed.
+Unlike direct attached SCSI devices, the order of device discovery on a SAN is not fixed. New tape drives can be easily added or removed from the system. Names assigned to one device can be assigned to a different device after a reboot. This dynamic naming scheme is problematic with tape drives and libraries on a SAN. To solve this naming scheme problem, the tape aliasing method was developed.
+Unlike direct attached SCSI devices, the order of device discovery on a SAN is not fixed. New tape drives can be easily added or removed from the system. Names assigned to one device can be assigned to a different device after a reboot. This dynamic naming scheme is problematic with tape drives and libraries on a SAN. To solve this naming scheme problem, the tape aliasing method was developed.
+Tape aliasing
+Tape aliasing provides a correspondence between the logical names of a backup device, for example (st0, mc1), and a name permanently assigned to a port or to a tape device. The following are three naming schemes used to assign permanent names to logical names of tape devices:
+Tape aliasing provides a correspondence between the logical names of a backup device, for example (st0, mc1), and a name permanently assigned to a port or to a tape device. The following are three naming schemes used to assign permanent names to logical names of tape devices:
+Tape aliasing provides a correspondence between the logical names of a backup device, for example (st0, mc1), and a name permanently assigned to a port or to a tape device. The following are three naming schemes used to assign permanent names to logical names of tape devices:
+A logical name is the software assigned name given to the tape device by the system. The format for tape drive logical name is stn, where n is an integer greater than or equal to 0. The value of n is assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention.
+A logical name is the software assigned name given to the tape device by the system. The format for tape drive logical name is stn, where n is an integer greater than or equal to 0. The value of n is assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention.
+A logical name is the software assigned name given to the tape device by the system. The format for tape drive logical name is stn, where n is an integer greater than or equal to 0. The value of n is assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention.
+A PPN is the numerical address sequence that Data ONTAP assigns to a tape drive and library based on which SCSI-2/3 adapter or switch they are connected to on the system. A PPN is also known as an electrical name.
+Note: Different systems can have different PPNs for the same tape device.
+A WWN is assigned to tape devices at the time of manufacture. WWN applies only to Fibre Channel devices and not to SCSI devices.
+Note: Accessing a tape device through the WWN enables multiple systems to track the same device. Also, using WWNs eliminates confusion in naming conventions sometimes caused by using PPNs.
+Mapping tape aliases
+Tape drive make and model
+Serial number of the tape drive
+Tape drive Fibre Channel WWN
+Tape drive alias nameDynamic Disk Pools
+Key Points
+Dynamic rebuild technology minimizes the performance impact of a drive failure.
+DDP rebuilds up to eight times faster than traditional RAID.
+NetApp SANtricity Dynamic Disk Pools offers flexible, high-performance data storage for capacity-intensive environments.
+The combination of NetApp® SANtricity Dynamic Disk Pools (DDP) and NetApp E-Series storage is ideal for high-performance computing (HPC) and other big-data storage environments. These sites depend on fast data acquisition, processing, and distribution. They are designed for multiple gigabytes per second of bandwidth and demand uncompromising uptime, and drive failure is a major threat to them.
+DDP features a next-generation architecture that minimizes the impact of a drive failure, returning the system to optimal condition up to eight times faster than traditional RAID.
+DDP distributes data, parity information, and spare capacity across a pool of drives. Its intelligent algorithm (seven patents pending) defines which drives are used for segment placement, ensuring full data protection. DDP dynamic rebuild technology uses every drive in the pool to rebuild a failed drive, enabling exceptional performance under failure. Flexible disk-pool sizing optimizes utilization of any configuration for maximum performance, protection, and efficiency.NetApp Products for Ethernet Consolidation and Unification
+NetApp FAS and V-Series products help you take advantage of the benefits of consolidating onto Ethernet.
+NetApp® data storage solutions work as a "unification engine" that supports all storage protocols-NFS, CIFS, iSCSI, Fibre Channel (FC), and Fibre Channel over Ethernet (FCoE)-in the same system.
+NetApp NAS
+NetApp NAS solutions help solve your data management challenges of scalability and availability by consolidating your existing Windows®, Linux®, and UNIX® file servers with multiple file access protocols (CIFS, NFS).
+Fibre Channel is not the only game in town for those who desire high performance and high reliability. NetApp's robust iSCSI storage solutions offer the performance of a SAN with the familiarity of the Internet Protocol.NetApp Leadership in Ethernet Network Storage
+Key Points
+Reduce costs, increase flexibility, and improve network storage efficiency.
+Increase productivity with high-performance 10GbE and 1GbE storage.
+Get proven solutions from a leader with over 15 years' Ethernet experience.
+Protect your existing network storage investments.
+NetApp leadership in Ethernet network storage helps boost storage efficiency, simplify data management, and reduce TCO.
+NetApp has been a leader in supporting Ethernet storage: NAS pioneer, early iSCSI proponent, the first to ship native FCoE storage systems. Now, our multiprotocol unified storage architecture leverages Ethernet storage benefits and supports NFS, CIFS, iSCSI, and FCoE in the same system.
+NetApp® Unified Connect provides concurrent multiprotocol data access over shared network ports for a flexible and efficient shared storage infrastructure.
+NetApp NAS solves data management challenges of scalability, availability, and consolidating your existing Windows®, Linux®, and UNIX® file servers with our Ethernet-based NAS solutions.
+NetApp iSCSI works with NetApp's powerful data management software to deliver higher data availability, simpler data management, and better storage utilization.
+NetApp Fibre Channel over Ethernet provides increased storage flexibility for your high-performance, data-availability, and data-management needs.
+NetApp Ethernet Advantage brings together a trusted ecosystem of best-in-class vendors to deliver peace of mind and greater flexibility in your FCoE deployment.
+To learn how NetApp Ethernet storage solutions can help you consolidate and simplify your infrastructure, explore these additional resources:Find a NetApp location
+Fujitsu Siemens Computers Fibre Channel TapeSAN Solution for Brocade
+Data ONTAP™ 7.3.x Solution Information
+The Fujitsu Siemens Computers tape libraries for fibre channel tapeSAN are listed below. All components are described in the table below. For information about switch configurations, please visit the Brocade switch page.
+Data ONTAP
+7.3.x
+Platforms
+NetApp platforms: FAS900, FAS270, FAS2000, FAS3000, FAS3100, FAS6000 series
+Adapter Cards
+Qlogic QLA2340/QLA2342, QLA2460/QLA2462, and QLE2460/QLE2462
+Switch
+Brocade 300,5100,5300 (fw ≥ 6.1.0) Brocade 48000 200E (fw ≥ 5.0.3c) Brocade 5000 (fw ≥ 5.2.1b) Direct connect configurations (without switch)
+media changer :
+Fujitsu Siemens Computers FibreCAT TX08 / fw ≥ 1.50 FibreCAT TX24-S2 / fw ≥ 4.32 FibreCAT TX48-S2 / fw ≥ 4.32 Controlled via ADI (Automation Drive Interface)Find a NetApp location
+OSN Initiative
+NetApp delivers certified Fibre Channel (FC) Fabric TapeSAN backup solutions with multiple switch and tape storage vendors for data management in enterprise SAN environments.
+Open Storage Networking NetApp has a strategy for delivering the best storage networking product solutions in the industry. We have a deep commitment to the integral technologies as well as a deep expertise in these technologies. We strongly believe that our vision of what storage networking means to customers-as well as the inherent capabilities of our company-is what makes us an industry leader. This is an exciting movement forward for both NetApp and our customers, since we are already embedded into the key solutions customers choose today as well as into the future.
+What is storage networking? What is Open Storage Networking (OSN)? Storage networking allows companies to deliver data anywhere, any way, in any quantity, anytime, and any type of data...with data that is always available. Open means that companies can construct best-of-breed solutions that can easily incorporate legacy equipment as well as new and emerging technologies. Standards are the essence of open systems, meaning that companies can utilize and leverage their existing staff and skills base, current installed base of equipment, software, and management tools, as well as benefit from an extremely large and diverse base of mature suppliers to ensure that these companies can focus on their business problems and initiatives rather than guessing about which emerging technology to deploy.
+Open storage networking means that in an age when the opportunities and issues are extraordinarily diverse, complicated, and compelling, companies can precisely calibrate their operations and business development efforts to yield the best return, use information to disarm and control their competition, and create higher than ever levels of company valuation.
+Why is storage networking such an important development? Storage networking provides a sound architectural evolution away from the model of storage being directly attached to servers. The ability to redeploy, manage, centrally protect, and leverage data between servers and end users comes from the premise that a network is the link to data. In addition, by offloading the front-end networks from many of the activities that will be migrated to the storage network, you free up bandwidth thereby improving responsiveness for all network users. Separating the data from the servers allows customers to use solutions optimized for managing and deploying data.
+What are the three most significant differentiating product features of OSN?
+Advanced networking technology: Networking technology allows companies to put storage in the hands of users whenever and wherever they are and with the advantage of readily available, industry-standard management tools, skills, a tremendous bandwidth-improvement roadmap, and the most compelling TCO of any alternative for connecting storage, servers, and users.
+Advanced data management-focused operating system: Data ONTAP™ software is an operating system that has been specifically designed to provide data-management tools and technologies in a network-oriented environment, thereby giving customers the ability to fully leverage the enormous investment they are making in data and information as well as giving customers a tool for managing the sheer magnitude of data and information they need to cope with (which is growing at an extraordinary rate).
+Appliance architecture: The appliance architecture ensures the lowest possible TCO.
+Which components make up an OSN? An OSN is made up of many components that are very familiar to NetApp customers. These components include:
+Simplicity: It's a NetApp-infused solution, after all!
+Heterogeneous data sharing
+Homogeneous data consolidation
+Greater scalability than direct-attached storage
+High-speed tape backup and tape resource sharing
+Well-established protocols and standards for file-level data protection and security
+Investment protection because the solution leverages the installed base of equipment and personnel
+Flexibility because it is a network that can grow, scale up, and change to meet new needs and challenges
+Redundancy because it is a network and you can build failover and multiple paths to the storage network elements
+Asynchronous mirroring for affordable replication solutions, which are essential to tomorrow's Internet-based business systems.
+Everything that is special and powerful about NetApp technology such as the Snapshot™ capability
+What is the goal of OSN? Data anywhere, anytime via integrated servers, switches, and storage devices.
+How do I know my tape backup configuration in an FC SAN is supported? To know if your configuration is supported please click hereFind a NetApp location
+NetApp Platform Support
+The following table describes which adapters can be used with which platforms for the TapeSAN solutions. Slot information for specific platforms can be found in the Data ONTAP™ system configuration guide for a particular release.Find a NetApp location
+TapeSAN Setup for Systems
+Background information about methods for identifying tapes and media changers  
+On older systems, most tape drives were connected to the system through SCSI. In those cases, the system needed only to scan the SCSI bus to identify all the peripherals that were attached to it. However, if drives were removed or added after the system was booted, the system was not aware of the changes. A reboot was required before the configurations took effect. This method of direct connect SCSI tape device did not allow for hot swapping or dynamically changing tape configurations after the system was running.
+This Fibre Channel fabric TapeSAN backup solution enables hot swapping and dynamically changing tape configurations after the system is running. A Fibre Channel tape drive or library can now be connected and disconnected from the Fibre Channel switch, and the switches rescans the ports to determine whether devices were added or removed. The system detects these configuration changes in real time. It disables access to drives that disappeared, and it exports new drives for the user.
+Device naming convention
+After a tape drive is discovered by the system, the drive is allocated a name using the format stn, where n is a number assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention. The following are some limitations with earlier naming conventions:
+Data ONTAP assigns device addresses on a first-come first-served basis.
+Assigned stn addresses do not move when the device is moved.
+Addresses might not be reassigned in the same order after reboot
+Unlike direct attached SCSI devices, the order of device discovery on a SAN is not fixed. New tape drives can be easily added or removed from the system. Names assigned to one device can be assigned to a different device after a reboot. This dynamic naming scheme is problematic with tape drives and libraries on a SAN. To solve this naming scheme problem, the tape aliasing method was developed.
+Tape aliasing
+Tape aliasing provides a correspondence between the logical names of a backup device, for example (st0, mc1), and a name permanently assigned to a port or to a tape device. The following are three naming schemes used to assign permanent names to logical names of tape devices:
+Logical names
+A logical name is the software assigned name given to the tape device by the system. The format for tape drive logical name is stn, where n is an integer greater than or equal to 0. The value of n is assigned to the drive based on when it was discovered. Tape libraries (also known as media changers mc) follow a similar naming convention.
+Example: Logical name - dump 0f /dev/nrst0a /vol/vol0
+Electrical or Physical path names (PPN)
+A PPN is the numerical address sequence that Data ONTAP assigns to a tape drive and library based on which SCSI-2/3 adapter or switch they are connected to on the system. A PPN is also known as an electrical name.
+Note: Different systems can have different PPNs for the same tape device.
+Example: Electrical name - dump 0f /dev/nr.MY_SWITCH:5.6.a /vol/vol0
+World wide names (WWN)
+A WWN is assigned to tape devices at the time of manufacture. WWN applies only to Fibre Channel devices and not to SCSI devices.
+Note: Accessing a tape device through the WWN enables multiple systems to track the same device. Also, using WWNs eliminates confusion in naming conventions sometimes caused by using PPNs.
+Example: World wide name - dump 0f /dev/nr.WWN[2:000:00e08b:01523e].a /vol/vol0
+Mapping tape aliases
+The logical name assigned by the system can be mapped to the device PPN or WWN. In this event, assigned stn or mcn names have direct association with PPNs and WWNs.
+Example: Logical name st0 can be mapped to PPN MY_SWITCH:5.6.a /vol/vol0
+OR
+Example: Logical name st0 can be mapped to WWN WWN 2:000:00e08b:01523e].a /vol/vol0
+Tape drive make and model
+Serial number of the tape drive
+Tape drive Fibre Channel WWN
+Tape drive alias name
+Command: storage show mc - Provides the following information:
+Media changer/library PPN
+Media changer/library make and model
+Media changer/library alias name
+Command: storage adapter disable adapter # - Provides the following information:Key Points
+NetApp and our partners offer secure multi-tenancy that takes the risk out of moving to a cloud infrastructure.
+Isolated servers and data storage can result in low utilization, gross inefficiency, and inability to respond to changing business needs. Cloud architecture, delivering IT as a service (ITaaS), can overcome these limitations while reducing future IT spending by up to 47%.
+Security in cloud computing benefits governments, businesses, and financial and healthcare organizations. But security breaches can deter cloud adoption. NetApp, Cisco, and VMware have created an enterprise cloud architecture for server, storage, and networking hardware and software, facilitating data sharing, reuse, and dynamic data center resource allocation.
+NetApp® secure multi-tenancy isolates VMs/groups, clients, business units, security zones, and layers. The shared infrastructure employs Cisco® Nexus® 1000V and VMware® vShield™ zone technologies, and NetApp MultiStore® technology, to offer the benefits of secure multi-tenancy:
+Efficient, always-on infrastructure with elastic scalability
+Simplified, unified cloud architecture and virtualized storage management for separate applications/customersHandle data growth using NetApp storage efficiency: improve storage utilization, reclaim resources, and lower costs.
+According to IDC, data growth rates will exceed 39% * each year through 2016. How will you store, move, and protect that much more data with flat budgets and your existing IT staff? NetApp® storage efficiency solutions let you control data growth to increase storage utilization, regain capacity, and improve IT performance. In the clustered Data ONTAP® environment, our storage portfolio improves efficiency as you scale. Plus, we provide tools to monitor and measure your efficiency.NetApp Unified Storage Architecture
+NetApp unified storage innovations improve data center efficiency and enhance virtualization and consolidation.
+NetApp introduced you to unified storage systems more than a decade ago. Our continued leadership and unwavering commitment to innovation have resulted in an architecture unified not only across protocols and disks, but also in storage efficiency, processes, data management, and data protection.
+This level of unification is crucial if your data center is to respond to trends such as virtualization and consolidation. It's no surprise that nearly 75% of all our virtualization deployments use a unified architecture.
+A dynamic data center-built upon a shared, secure, networked storage infrastructure able to eliminate the "silos" of storage associated with various application tiers and with heterogeneous environments-can:
+• Increase the flexibility of your IT. •    Boost your IT efficiency. •    Magnify data-center savings in power, cooling, and space utilization.
+Learn more about harnessing NetApp® unified storage innovations to build a dynamic data center able to fuel your business success.Key Points
+Increase storage capacity through improved utilization of existing storage.
+Decrease storage costs.
+NetApp automated, policy-based storage provisioning optimizes capacity utilization across your entire infrastructure.
+Today's resource-constrained, data-driven world demands a storage-efficient infrastructure that enables anytime, anywhere data access. The NetApp® unified storage architecture has efficiency built in, with automated provisioning provided through our Provisioning Manager software.
+Integrated with NetApp OnCommand™ management software tools, Provisioning Manager:
+Optimizes capacity utilization across your entire NAS and SAN infrastructure
+Automates manual and repetitive storage-provisioning tasks such as adding, reclaiming, monitoring, and assigning storage
+Frees storage administrators to perform other duties and increase their span of control
+Allows wasted or unused storage to be identified and drawn into a common pool from which storage requests can be implemented without disrupting operations
+Improves the utilization of existing storage, which can save money and defer storage purchases
+Use NetApp Provisioning Manager to achieve 'right-size' provisioning and meet the service-level needs of all your business applications, databases, digital media content, and file services.NetApp extends unified storage management to multivendor environments, providing real-time, end-to-end, unified views.
+NetApp® unified storage improves scalability, simplifies data management, increases IT efficiency, and reduces storage costs. But how can you integrate multivendor legacy technologies and products?
+The NetApp OnCommand™ Insight suite of analytic products delivers a unified view of your entire storage environment, including real-time visibility into all major storage vendors' platforms.
+Currently installed in more than one-third of Fortune 50 storage environments, OnCommand Insight software:
+Increases VM consolidation by 2x
+By understanding your storage environment today, you can plan and implement future changes faster and with more efficiency and less risk to critical business applications. Let OnCommand Insight unified views be the first step toward a unified storage architecture.Key Points
+NetApp Virtual Storage Tier lets you scale performance and capacity and achieve the highest level of storage efficiency.
+NetApp® Virtual Storage Tier (VST) is a self-managing, data-driven service layer for storage infrastructure. It provides real-time assessment of workload-based priorities and optimizes I/O data requests for cost and performance-without requiring complex data classification. Default data placement is to the lowest cost physical storage available (most often high-capacity SATA) because VST uses intelligent caching to leverage Flash-based technology with minimal I/O and CPU overhead.
+On-demand data promotion is based on actual usage patterns, ensuring immediate response to changing workload demands. Virtual Storage Tier is compatible with both SAN and NAS environments and related data protection and business continuity requirements.
+Built on NetApp's fundamental strengths in storage efficiency and intelligent caching, Virtual Storage Tier provides:
+Real-time, data-driven response to your most demanding application workloads
+Full flash technology integration: both PCIe and solid-state disk (SSD)
+Industry-leading efficiency through data deduplication and thin cloning integration
+Free White Paper: Benefits of Hybrid Storage
+Learn how enterprises benefit from hybrid storage strategies.
+Country Please Select Afghanistan Albania Algeria American Samoa Andorra Angola Anguilla Antarctica Antigua and Barbuda Argentina Armenia Aruba Australia Austria Azerbaijan Bahamas Bahrain Bangladesh Barbados Belarus Belgium Belize Benin Bermuda Bhutan Bolivia Bosnia and Herzegovina Botswana Bouvet Island Brazil British Indian Ocean Territory Brunei Bulgaria Burkina Faso Burundi Cambodia Cameroon Canada Cape Verde Cayman Islands Central African Republic Chad Channel Islands Chile China Christmas Island Cocos (Keeling) Islands Colombia Comoros Congo Congo The Democratic Republic Cook Islands Costa Rica Croatia Cyprus Czech Republic Denmark Djibouti Dominica Dominican Republic East Timor Ecuador Egypt El Salvador Equatorial Guinea Eritrea Estonia Ethiopia Falkland Islands (Malvinas) Faroe Islands Fiji Finland France France Metropolitan French Guiana French Polynesia French Southern Territories Gabon Gambia Georgia Germany Ghana Gibraltar Greece Greenland Grenada Guadeloupe Guam Guatemala Guinea Guinea-bissau Guyana Haiti Heard and McDonald Islands Holy See Vatican City Honduras Hong Kong Hungary Iceland India Indonesia Iraq Ireland Israel Italy Jamaica Japan Jordan Kazakhstan Kenya Kiribati Korea Kuwait Kyrgyzstan Laos Latvia Lebanon Lesotho Liberia Libian Arab Jamahiriya Liechtenstein Lithuania Luxembourg Macau Macedonia Madagascar Malawi Malaysia Maldives Mali Malta Marshall Islands Martinique Mauritania Mauritius Mayotte Mexico Micronesia Moldova Republic of Monaco Mongolia Montenegro Montserrat Morocco Mozambique Myanmar Namibia Nauru Nepal Netherlands Netherlands Antilles New Caledonia New Zealand Nicaragua Niger Nigeria Niue Norfolk Island Northern Mariana Islands Norway Oman Pakistan Palau Panama Papua New Guinea Paraguay Peru Philippines Pitcairn Islands Poland Portugal Puerto Rico Qatar Reunion Romania Russian Federation Rwanda Samoa San Marino Sao Tome and Principe Saudi Arabia Senegal Serbia Seychelles Sierra Leone Singapore Slovakia Slovenia Solomon Islands Somalia South Africa South Georgia South Sandwich Spain Sri Lanka St. Helena St. Pierre and Miquelon Suriname Svalbard and Jan Mayen Islands Swaziland Sweden Switzerland Taiwan Tajikistan Tanzania United Republic of Thailand Togo Tokelau Tonga Trinidad and Tobago Tunisia Turkey Turkmenistan Turks and Caicos Islands Tuvalu Uganda Ukraine United Arab Emirates United Kingdom Uruguay US Minor Outlying Islands USA Uzbekistan Vanuatu Venezuela Vietnam Virgin Islands (British) Virgin Islands (U.S.) Wallis and Futuna Islands Western Sahara Yemen Zambia Zimbabwe
+Job Role Please Select Architect Backup Administrator C-Level Executive Consultant Database Administrator Developer Director Director IT Data Center Director Non-Technical IT Staff Procurement IT Storage Administrator Manager Manager IT Manager IT Procurement Manager IT Storage Other - Non-Technical Other - Technical Vice President
+Solution Interests Please Select Big Data Data Protection Database Desktop Virtualization Enterprise Applications FlexPod Midsize Business Private Cloud Public Cloud Server Virtualization Windows Storage Consolidation
+Last Name
+Relationship To NetApp Please Select Application Provider Customer NetApp Channel Partner Other Press Media Prospect
+Industry Please Select Agriculture Business Services Business Services: Accounting & Legal Business Services: Market Research & Consulting Business Services: Outsourcing & Hosting Construction Education: Higher Education Energy and Natural Resources Energy and Natural Resources: Mining Energy and Natural Resources: Oil & Gas Energy and Natural Resources: Utilities Financial Services: Banking Financial Services: Credit Financial Services: Insurance Financial Services: Securities and Investment Svcs Government: International Government: US Federal Government: US State and Local Healthcare: Healthcare providers Healthcare: Medical Equipment & Supplies Life Sciences: Biotech Life Sciences: Pharma Manufacturing Manufacturing: Aerospace & Defense Manufacturing: Automotive Manufacturing: Chemical and Raw Material Manufacturing: Consumer Products Manufacturing: Hi Tech Hardware Manufacturing: Misc Discrete Manufacturing Manufacturing: Process Manufacturing Manufacturing: Software Development Media & Communications: Cable Media & Communications: Electronic Gaming Media & Communications: Internet Media & Communications: Post Production Media & Communications: Publishing Media & Communications: Studios Media & Communications: Telco Non Profit Transportation & Shipping
+Company Size Please Select 0-100 1001-3000 101-250 251-500 3001-5000 5000+ 501-1000

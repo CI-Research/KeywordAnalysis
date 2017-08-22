@@ -14,7 +14,8 @@ cd cdx-index-client
 pip install -r requirements.txt
 ./cdx-index-client.py -c CC-MAIN-2016-30 *.netapp.com --json
 cat domain-* > CC-MAIN-2016-30_July_Netapp
-git clone git://github.com/centic9/CommonCrawlDocumentDownload
+cd ~
+git clone https://github.com/centic9/CommonCrawlDocumentDownload
 cd CommonCrawlDocumentDownload
 rm src/main/java/org/dstadler/commoncrawl/index/CDXItem.java
 wget https://github.com/CI-Research/KeywordAnalysis/raw/master/CDXItem.java 

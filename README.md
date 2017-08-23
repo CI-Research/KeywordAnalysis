@@ -95,7 +95,7 @@ IBM Wordcount process:
 ```Scala
 val file = sc.textFile("s3://CommonCrawl/ibm_boiler")
 val counts = file.flatMap(line => line.toLowerCase().replace(".", " ").replace(",", " ").split(" ")).map(word => (word, 1L)).reduceByKey(_ + _)
-val sorted_counts = counts.collect().sortBy(wc => -wc._2)    (1mins)
+val sorted_counts = counts.collect().sortBy(wc => -wc._2)   // 1mins
 sc.parallelize(sorted_counts.take(60000)).saveAsTextFile("s3://CommonCrawl/boilerplate/ibm_boiler _top60000")
 sc.parallelize(sorted_counts).saveAsTextFile("s3://CommonCrawl/boilerplate/wordcount-ibm_bolier")
 ```
@@ -103,7 +103,7 @@ Netapp Wordcount process:
 ```Scala
 val file = sc.textFile("s3://CommonCrawl/boilerplate/netapp_boiler")
 val counts = file.flatMap(line => line.toLowerCase().replace(".", " ").replace(",", " ").split(" ")).map(word => (word, 1L)).reduceByKey(_ + _)
-val sorted_counts = counts.collect().sortBy(wc => -wc._2)    (3mins)
+val sorted_counts = counts.collect().sortBy(wc => -wc._2)    // 3mins
 sc.parallelize(sorted_counts.take(20000)).saveAsTextFile("s3://CommonCrawl/top20000_netapp_boiler")
 sc.parallelize(sorted_counts).saveAsTextFile("s3://CommonCrawl/wordcount-netapp_boiler")
 ```

@@ -1,147 +1,147 @@
 id,value
-active-active,20
-agile,140
-agile controller,25
-agile network,17
-analytics,135
-applications,329
-architecture,158
-automated,90
-availability,36
-aviation,20
-backup,24
-bandwidth,77
-bank,49
-big data,88
-big data analytics,24
-broadband,27
-broadcasting,21
-CCTV,18
-chip,24
-cloud,478
-cloud computing,75
-cloud data,51
-cloud data center,38
-cloud fabric,24
-cloud management,18
-cloud platform,28
-cloud solution,22
-cloud-based,28
-CloudEngine,19
-cluster,23
-communication,64
-compute,36
-compute node,20
-computing,182
-connected lighting,20
-connected lighting solution,19
-controller,57
-converged,37
-cooling,36
-cost,188
-cost-effective,19
-data,873
-data analytics,27
-data center,289
-data center network,26
-data centers,125
-density,21
-desktop,62
-desktop cloud,27
-digital,539
-digital economy,18
-digital transformation,435
-disaster recovery,20
-distributed,55
-distribution,51
-edge,29
-eGovernment,23
-electric power,33
-electricity,22
-eLTE,23
-enterprise network,24
-eSight,17
-fabric,46
-FusionServer,43
-FusionSphere,22
-gateway,72
-grid,41
-HANA,17
-hardware,76
-high-density,36
-high-performance,62
-HPC,30
 huawei,1371
-ICT,180
-ICT infrastructure,28
-ICT solutions,25
-information technology,17
-innovation,161
-Intel,66
-Intel Xeon,80
-intelligent,141
-interconnection,25
-IoT,162
-IP,36
-KunLun,30
-Lighting Solution,20
-memory,30
-migration,30
-mission critical,50
-mobile,138
-modular,52
-modular data,23
-modular data center,18
-monitoring,73
 network,901
-network architecture,18
+data,873
+digital,539
+cloud,478
+digital transformation,435
+applications,329
+security,292
+data center,289
+storage,262
+server,218
+systems,208
+performance,206
+cost,188
+video,183
+computing,182
+ICT,180
+reliable,179
+virtualization,179
+IoT,162
+innovation,161
+architecture,158
+intelligent,141
+agile,140
+switches,139
+mobile,138
+wireless,136
+analytics,135
+data centers,125
+software,118
+unified,107
+automated,90
+big data,88
+Wi-Fi,87
+scalability,83
+Intel Xeon,80
+bandwidth,77
+hardware,76
+cloud computing,75
+processor,74
+monitoring,73
+gateway,72
+SDN,71
+protection,67
+Intel,66
+standards,65
+communication,64
+secure,63
+desktop,62
+high-performance,62
+PaaS,60
+networking,58
+controller,57
+distributed,55
+modular,52
+cloud data,51
+distribution,51
+mission critical,50
+bank,49
+real-time,49
+transmission,48
+SAP,47
+fabric,46
+surveillance,45
+FusionServer,43
+OceanStor,43
+grid,41
+cloud data center,38
+SSD ,38
+converged,37
+UPS,37
+availability,36
+compute,36
+cooling,36
+high-density,36
+IP,36
+electric power,33
+video surveillance,33
 network management,32
 network solution,32
-networking,58
-OceanStor,43
-on-demand,29
-Opex,18
-PaaS,60
-PCIe,27
-performance,206
-processor,74
-protection,67
-rack,27
-real-time,49
-reliable,179
-resource utilization,18
-ROI,19
-routers,28
-SAP,47
-SAS,18
-scalability,83
-SDN,71
-secure,63
-security,292
-security management,18
-security protection,25
-sensors,24
-server,218
-software,118
-software-defined,28
-solution partners,29
-SSD ,38
-standards,65
-storage,262
-storage systems,19
-surveillance,45
-switches,139
-systems,208
-TCO,27
-telecom,21
-transmission,48
-unified,107
-unified management,23
-UPS,37
-video,183
-video surveillance,33
-virtualization,179
-Wi-Fi,87
 wired,31
-wireless,136
+HPC,30
+KunLun,30
+memory,30
+migration,30
+edge,29
+on-demand,29
+solution partners,29
+cloud platform,28
+cloud-based,28
+ICT infrastructure,28
+routers,28
+software-defined,28
+broadband,27
+data analytics,27
+desktop cloud,27
+PCIe,27
+rack,27
+TCO,27
+data center network,26
+agile controller,25
+ICT solutions,25
+interconnection,25
+security protection,25
+backup,24
+big data analytics,24
+chip,24
+cloud fabric,24
+enterprise network,24
+sensors,24
+cluster,23
+eGovernment,23
+eLTE,23
+modular data,23
+unified management,23
+cloud solution,22
+electricity,22
+FusionSphere,22
+broadcasting,21
+density,21
+telecom,21
+active-active,20
+aviation,20
+compute node,20
+connected lighting,20
+disaster recovery,20
+Lighting Solution,20
 WLAN,20
+CloudEngine,19
+connected lighting solution,19
+cost-effective,19
+ROI,19
+storage systems,19
+CCTV,18
+cloud management,18
+digital economy,18
+modular data center,18
+network architecture,18
+Opex,18
+resource utilization,18
+SAS,18
+security management,18
+agile network,17
+eSight,17
+HANA,17
+information technology,17

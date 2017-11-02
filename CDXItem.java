@@ -15,67 +15,69 @@ import com.fasterxml.jackson.core.JsonToken;
  *
  */
 public class CDXItem {
-	private static final JsonFactory f = new JsonFactory();
+	public static void main(String[] args) {
+		private static final JsonFactory f = new JsonFactory();
 
-	public String urlkey;
-	public long timestamp;
-	public String url;
-	public String mime;
-	public String "mime-detected";
-	public String status;
-	public String digest;
-	public long length;
-	public long offset;
-	public String filename;
+		public String urlkey;
+		public long timestamp;
+		public String url;
+		public String mime;
+		public String mime-detected;
+		public String status;
+		public String digest;
+		public long length;
+		public long offset;
+		public String filename;
 
-	public static CDXItem parse(String json) throws IOException {
-		/*
-{"url": "http://www.malthus.com.br/rw/forense/o_alcoolismo_e_a_lei.ppt", "mime": "application/vnd.ms-powerpoint", "status": "200",
-"digest": "PRKAHBCWKV2357EMC4H5Q2I56SSL34KB", "length": "474522", "offset": "548823139",
-"filename": "crawl-data/CC-MAIN-2015-35/segments/1440645293619.80/warc/CC-MAIN-20150827031453-00044-ip-10-171-96-226.ec2.internal.warc.gz"}		 */
-		CDXItem item = new CDXItem();
+		public static CDXItem parse(String json) throws IOException {
+			/*
+	{"url": "http://www.malthus.com.br/rw/forense/o_alcoolismo_e_a_lei.ppt", "mime": "application/vnd.ms-powerpoint", "status": "200",
+	"digest": "PRKAHBCWKV2357EMC4H5Q2I56SSL34KB", "length": "474522", "offset": "548823139",
+	"filename": "crawl-data/CC-MAIN-2015-35/segments/1440645293619.80/warc/CC-MAIN-20150827031453-00044-ip-10-171-96-226.ec2.internal.warc.gz"}		 */
+			CDXItem item = new CDXItem();
 
-    	try (JsonParser jp = f.createParser(json)) {
-	    	while(jp.nextToken() != JsonToken.END_OBJECT) {
-	    		if(jp.getCurrentToken() == JsonToken.VALUE_STRING) {
-	    			String name = jp.getCurrentName();
-					if("urlkey".equals(name)) {
-						item.urlkey = jp.getValueAsString().toLowerCase();
-					} else if ("timestamp".equals(name)) {
-						item.timestamp = jp.getValueAsLong();
-					} else if ("url".equals(name)) {
-						item.url = jp.getValueAsString().toLowerCase();
-					} else if ("mime".equals(name)) {
-						item.mime = jp.getValueAsString().toLowerCase();
-					} else if ("mime-detected".equals(name)) {
-						item.mime-detected = jp.getValueAsString().toLowerCase();
-					} else if ("status".equals(name)) {
-						item.status = jp.getValueAsString();
-					} else if ("digest".equals(name)) {
-						item.digest = jp.getValueAsString();
-					} else if ("length".equals(name)) {
-						item.length = jp.getValueAsLong();
-					} else if ("offset".equals(name)) {
-						item.offset = jp.getValueAsLong();
-					} else if ("filename".equals(name)) {
-						item.filename = jp.getValueAsString();
-					} else {
-						throw new IllegalStateException("Unknown field found: " + name);
+			try (JsonParser jp = f.createParser(json)) {
+				while(jp.nextToken() != JsonToken.END_OBJECT) {
+					if(jp.getCurrentToken() == JsonToken.VALUE_STRING) {
+						String name = jp.getCurrentName();
+						if("urlkey".equals(name)) {
+							item.urlkey = jp.getValueAsString().toLowerCase();
+						} else if ("timestamp".equals(name)) {
+							item.timestamp = jp.getValueAsLong();
+						} else if ("url".equals(name)) {
+							item.url = jp.getValueAsString().toLowerCase();
+						} else if ("mime".equals(name)) {
+							item.mime = jp.getValueAsString().toLowerCase();
+						} else if ("mime-detected".equals(name)) {
+							item.mime-detected = jp.getValueAsString().toLowerCase();
+						} else if ("status".equals(name)) {
+							item.status = jp.getValueAsString();
+						} else if ("digest".equals(name)) {
+							item.digest = jp.getValueAsString();
+						} else if ("length".equals(name)) {
+							item.length = jp.getValueAsLong();
+						} else if ("offset".equals(name)) {
+							item.offset = jp.getValueAsLong();
+						} else if ("filename".equals(name)) {
+							item.filename = jp.getValueAsString();
+						} else {
+							throw new IllegalStateException("Unknown field found: " + name);
+						}
 					}
-	    		}
-	    	}
-    	}
+				}
+			}
 
-    	return item;
-	}
+			return item;
+		}
 
-	public DocumentLocation getDocumentLocation() {
-		DocumentLocation location = new DocumentLocation();
-		location.arcFileOffset = offset;
-		location.arcFileSize = length;
-		location.filename = filename;
-		location.mime = mime;
+		public DocumentLocation getDocumentLocation() {
+			DocumentLocation location = new DocumentLocation();
+			location.arcFileOffset = offset;
+			location.arcFileSize = length;
+			location.filename = filename;
+			location.mime = mime;
 
-		return location;
+			return location;
+		}
 	}
 }

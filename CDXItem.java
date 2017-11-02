@@ -21,7 +21,7 @@ public class CDXItem {
 	public long timestamp;
 	public String url;
 	public String mime;
-	public String mime-detected;
+	public String "mime-detected";
 	public String status;
 	public String digest;
 	public long length;

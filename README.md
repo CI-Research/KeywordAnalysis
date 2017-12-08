@@ -21,7 +21,6 @@ rm src/main/java/org/dstadler/commoncrawl/index/CDXItem.java
 wget https://github.com/CI-Research/KeywordAnalysis/raw/master/CDXItem.java 
 mv CDXItem.java src/main/java/org/dstadler/commoncrawl/index/
 ./gradlew check
-./gradlew lookupURLs // immediately "Ctrl + C" to cancel the process
 cp ~/cdx-index-client/CC-MAIN-2016-30_July_Netapp ~/CommonCrawlDocumentDownload
 mv CC-MAIN-2016-30_July_Netapp commoncrawl-CC-MAIN-2017-13.txt
 nohup ./gradlew downloadDocuments

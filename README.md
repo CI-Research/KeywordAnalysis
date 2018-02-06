@@ -31,7 +31,7 @@ cd /var/tmp/download
 aws s3 sync . s3://CommonCrawl/data/NetApp/CC-MAIN-2016-30_July_Netapp/
 ```
 
-#### Wget NetApp data capturing - (this is an optional step)
+#### Wget NetApp data capturing - (this is an optional step - addtional comment)
 
 Run wget from laptop Linux virtual machine
 ```

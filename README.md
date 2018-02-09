@@ -27,6 +27,7 @@ nohup ./gradlew downloadDocuments
 3. Uploade data to S3
 ```
 cd ~/download
+aws configure
 aws s3 sync . s3://CommonCrawl/data/NetApp/CC-MAIN-2016-30_July_Netapp/
 ```
 

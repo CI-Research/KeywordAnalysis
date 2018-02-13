@@ -1,0 +1,16 @@
+sudo yum -y install git; 
+git clone https://github.com/CI-Research/cdx-index-client
+cd cdx-index-client
+pip install -r requirements.txt
+./cdx-index-client.py -c CC-MAIN-2016-30 *.emc.com --json
+cat domain-* > CC-MAIN-2016-30_July_EMC
+git clone git://github.com/centic9/CommonCrawlDocumentDownload
+cd CommonCrawlDocumentDownload
+rm src/main/java/org/dstadler/commoncrawl/index/CDXItem.java
+wget https://github.com/CI-Research/KeywordAnalysis/raw/master/CDXItem.java 
+mv CDXItem.java src/main/java/org/dstadler/commoncrawl/index/
+./gradlew check
+./gradlew lookupURLs // immediately "Ctrl + C" to cancel the process
+cp ~/cdx-index-client/CC-MAIN-2016-30_July_EMC ~/CommonCrawlDocumentDownload
+mv CC-MAIN-2016-30_July_EMC commoncrawl-CC-MAIN-2017-13.txt
+nohup ./gradlew downloadDocuments

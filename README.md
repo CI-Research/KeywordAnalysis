@@ -54,25 +54,26 @@ Upload files to AWS S3 bucket for use.
 1. Start 1 nodes AWS EMR (Advance config: Hadoop only, Network "EC2-Classic", Master "m1.large", Core "0")
 2. SSH to the instance: ec2-54-90-80-85.compute-1.amazonaws.com (change)   user: hadoop 
 3. sudo yum install -y git
-4. wget http://supergsego.com/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
-5. tar zxvf apache-maven-3.5.0-bin.tar.gz
+4. wget http://www-eu.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz
+5. tar zxvf apache-maven-3.5.2-bin.tar.gz
 6. sudo vi .bashrc
 ```
-export MAVEN_HOME=/home/hadoop/apache-maven-3.5.0
-export M2_HOME=/home/hadoop/apache-maven-3.5.0
-export M2=/home/hadoop/apache-maven-3.5.0
-export PATH=/home/hadoop/apache-maven-3.5.0/bin:$PATH
+export MAVEN_HOME=/home/hadoop/apache-maven-3.5.2
+export M2_HOME=/home/hadoop/apache-maven-3.5.2
+export M2=/home/hadoop/apache-maven-3.5.2
+export PATH=/home/hadoop/apache-maven-3.5.2/bin:$PATH
 ```
 7. source .bashrc
 8. git clone https://github.com/dkpro/dkpro-c4corpus
 9. aws s3 sync s3://CommonCrawl/data/NetApp/CC-MAIN-2016-30_July_Netapp/ /var/tmp/CC-MAIN-2016-30_July_Netapp
-10. run dkpro-c4corpus-boilerplate
+9a. aws s3 sync s3://CommonCrawl/data/StackOverflow/ /var/tmp/StackOverflow/
+10. run the dkpro-c4corpus-boilerplate project using the below 2 commands::
 ```
 cd dkpro-c4corpus/dkpro-c4corpus-boilerplate/
 mvn package
 ```
 11. mkdir /var/tmp/boiler
-12. Create script to process the file
+12. Create script to process the file:: (replace name of the directory CC-MAIN to the one you are working on). For StackOverflow i used "/var/tmp/StackOverflow/*;"
 ```
 vi boiler.sh
 #!/bin/bash

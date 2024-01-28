@@ -1,7 +1,7 @@
 # KeywordAnalysis
 Word analysis, by domain, on the Common Crawl data set for the purpose of finding industry trends
 
-Knowledge Sharing Interview: Using Open Data to Predict Market Movements
+Knowledge Sharing Interview: Using Open Data to Predict Market Movements 
 https://youtu.be/qjlOMoAYKmg?t=134
 
 Knowledge Sharing Paper: Using Open Data to Predict Market Movements
